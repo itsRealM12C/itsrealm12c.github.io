@@ -1,0 +1,18 @@
+{
+    "icon": "icon.png",
+    "main": "index.html",
+    "title": "Coodre",
+    "type": "web",
+    "resolution": "1280x720",
+    "version": "0.0.2",
+    "splashBackground": "splash.png",
+    "bgImage": "splash.png",
+    "bgColor": "#FFFFFF",
+    "vendor": "ODM",
+    "largeIcon": "largeIcon.png",
+    "iconColor": "#FFFFFF",
+    "id": "com.coodre.search",
+    "visible": "true",
+    "disableBackHistoryAPI":true,
+    "uiRevision":2
+}

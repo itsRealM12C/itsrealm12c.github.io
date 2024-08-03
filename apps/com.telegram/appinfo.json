@@ -1,0 +1,15 @@
+{
+	"vendor": "cerberus161rus",
+	"iconColor": "#ffffff",
+	"icon": "icon.png",
+	"largeIcon": "largeIcon.png",
+	"main": "index.html",
+	"id": "amazon",
+	"title": "Telegram",
+	"appDescription": "Telegram for webOS.",
+	"type": "web",
+	"version": "1.0.0",
+	"noSplashOnLaunch": true,
+	"disableBackHistoryAPI": true,
+	"visible": false
+}

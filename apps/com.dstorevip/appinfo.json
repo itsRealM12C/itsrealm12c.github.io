@@ -1,0 +1,18 @@
+{
+    "appDescription": "DStore-VIP for WebOS 4.0",
+    "icon": "icon-80x80.png",
+    "main": "index.html",
+    "trustLevel": "netcast",
+    "title": "Dstore-VIP",
+    "type": "web",
+    "resolution": "1280x720",
+    "bgImage": "fon.png",
+    "splashBackground": "fon1.png",
+    "version": "0.0.4",
+    "bgColor": "#030380",
+    "vendor": "Dstore-1",
+    "largeIcon": "icon-130x130.png",
+    "iconColor": "#030380",
+    "id": "net.orleya.wap",
+    "uiRevision":2
+}
