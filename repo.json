@@ -23,17 +23,17 @@
     {
       "id": "com.dstore1",
       "title": "DStore 1",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/tree/main/apps/com.dstore1/icon.png",
+      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/icon.png",
       "manifest": {
         "id": "com.dstore1",
         "version": "1.0.1",
         "type": "web",
         "title": "DStore",
         "appDescription": "DStore application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/main/apps/com.dstore1/icon.png",
+        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/icon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/tree/main/apps/com.dstore1/dstore1.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/dstore1.ipk",
         "ipkHash": {
           "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
         },
@@ -44,14 +44,14 @@
     {
       "id": "com.dstore2",
       "title": "DStore 2",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/tree/main/apps/com.dstore2/icon.png",
+      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore2/icon.png",
       "manifest": {
         "id": "com.dstore2",
         "version": "1.0.2",
         "type": "web",
         "title": "DStore 2",
         "appDescription": "DStore 2 application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/main/apps/com.dstorevip/icon.png",
+        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
         "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/main/apps/com.dstorevip/dstorevip.ipk",
@@ -65,17 +65,17 @@
     {
       "id": "com.dstorevip",
       "title": "DStore VIP",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/tree/main/apps/com.dstorevip/icon.png",
+      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
       "manifest": {
         "id": "com.dstorevip",
         "version": "1.0.3",
         "type": "web",
         "title": "DStore VIP",
         "appDescription": "DStore 2 application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/main/apps/com.dstorevip/icon.png",
+        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/main/apps/com.dstorevip/dstorevip.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/dstorevip.ipk",
         "ipkHash": {
           "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
         },
@@ -105,9 +105,4 @@
       "shortDescription": "Telegram application.",
     }  
   ]
-}
-      
-    
-
-
-        
+}       
