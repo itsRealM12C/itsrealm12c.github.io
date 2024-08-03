@@ -1,2 +1,2 @@
 # awesome-repo
-A exicting repo for webOS Homebrew Channel
+<b>A exicting repo for webOS Homebrew Channel</b>
