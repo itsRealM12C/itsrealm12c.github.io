@@ -9,14 +9,14 @@
     {
       "id": "com.coodre.search",
       "title": "Coodre",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.coodre.search/icon.png",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.coodre.search/largeIcon.png",
       "manifest": {
         "id": "com.coodre.search",
         "version": "1.0.0",
         "type": "web",
-        "title": "Coode",
+        "title": "Coodre",
         "appDescription": "Coodre search.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.coodre.search/icon.png",
+        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.coodre.search/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
         "rootRequired": false,
     },
