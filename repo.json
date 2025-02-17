@@ -65,14 +65,14 @@
     {
       "id": "com.dstorevip",
       "title": "DStore VIP",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstorevip/largeIcon.png",
       "manifest": {
         "id": "com.dstorevip",
         "version": "1.0.3",
         "type": "web",
         "title": "DStore VIP",
-        "appDescription": "DStore 2 application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
+        "appDescription": "DStore VIP application.",
+        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstorevip/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
         "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/dstorevip.ipk",
@@ -86,17 +86,17 @@
     {
       "id": "com.telegram",
       "title": "Telegram",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.telegram/icon.png",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
       "manifest": {
         "id": "com.telegram",
         "version": "1.0.4",
         "type": "web",
         "title": "Telegram",
         "appDescription": "Telegram application",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.telegram/icon.png",
+        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.telegram/telegram.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/raw/refs/heads/main/apps/com.telegram/telegram.ipk",
         "ipkHash": {
           "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
         },
