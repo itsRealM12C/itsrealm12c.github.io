@@ -23,14 +23,14 @@
     {
       "id": "com.dstore1",
       "title": "DStore 1",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/icon.png",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstore1/icon-130x130.png",
       "manifest": {
         "id": "com.dstore1",
         "version": "1.0.1",
         "type": "web",
         "title": "DStore",
         "appDescription": "DStore application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/icon.png",
+        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstore1/icon-130x130.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
         "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/dstore1.ipk",
