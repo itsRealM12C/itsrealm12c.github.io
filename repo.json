@@ -33,7 +33,7 @@
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstore1/icon-130x130.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/dstore1.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/raw/refs/heads/main/apps/com.dstore1/dstore1.ipk",
         "ipkHash": {
           "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
         },
@@ -54,7 +54,7 @@
         "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/main/apps/com.dstorevip/dstorevip.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/raw/refs/heads/main/apps/com.dstore2/dstore2.ipk",
         "ipkHash": {
           "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
         },
