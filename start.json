@@ -1,0 +1,9 @@
+{    
+    "name": "Online webOS App Launcher",
+    "version": "1.0",
+    "dictionary": "https://wals09.github.io/msx/dictionary.json",
+    "parameter": "menu: https://wals09.github.io/msx/mooviestile/menu_ms.json",
+    "launcher": {
+      "image": "https://raw.githubusercontent.com/itsrealm12c/onlinewebosapplauncher/main/favicon.ico"
+   }   
+}
