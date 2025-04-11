@@ -1,107 +1,116 @@
-{
-  "paging": {
-    "page": 1,
-    "count": 1,
-    "maxPage": 1,
-    "itemsTotal": 1
-  },
-  "packages": [
-    {
-      "id": "com.coodre.search",
-      "title": "Coodre",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.coodre.search/icon.png",
-      "manifest": {
-        "id": "com.coodre.search",
-        "version": "1.0.0",
-        "type": "web",
-        "title": "Coode",
-        "appDescription": "Coodre search.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.coodre.search/icon.png",
-        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
-        "rootRequired": false,
-    },
-    {
-      "id": "com.dstore1",
-      "title": "DStore 1",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/icon.png",
-      "manifest": {
-        "id": "com.dstore1",
-        "version": "1.0.1",
-        "type": "web",
-        "title": "DStore",
-        "appDescription": "DStore application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/icon.png",
-        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
-        "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore1/dstore1.ipk",
-        "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
-        },
-        "ipkSize": 7021158
-      },
-      "shortDescription": "DStore application.",
-    },
-    {
-      "id": "com.dstore2",
-      "title": "DStore 2",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore2/icon.png",
-      "manifest": {
-        "id": "com.dstore2",
-        "version": "1.0.2",
-        "type": "web",
-        "title": "DStore 2",
-        "appDescription": "DStore 2 application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
-        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
-        "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/main/apps/com.dstorevip/dstorevip.ipk",
-        "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
-        },
-        "ipkSize": 7021158
-      },
-      "shortDescription": "DStore 2 application.",
-    },
-    {
-      "id": "com.dstorevip",
-      "title": "DStore VIP",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
-      "manifest": {
-        "id": "com.dstorevip",
-        "version": "1.0.3",
-        "type": "web",
-        "title": "DStore VIP",
-        "appDescription": "DStore 2 application.",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
-        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
-        "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/dstorevip.ipk",
-        "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
-        },
-        "ipkSize": 1234567
-      },
-      "shortDescription": "DStore VIP application.",
-    },
-    {
-      "id": "com.telegram",
-      "title": "Telegram",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.telegram/icon.png",
-      "manifest": {
-        "id": "com.telegram",
-        "version": "1.0.4",
-        "type": "web",
-        "title": "Telegram",
-        "appDescription": "Telegram application",
-        "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.telegram/icon.png",
-        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
-        "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.telegram/telegram.ipk",
-        "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
-        },
-        "ipkSize": 6742153
-      },
-      "shortDescription": "Telegram application.",
-    } 
-}       
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="color-scheme" content="light dark">
+</head>
+<body>
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content">
+            <h2>Settings</h2>
+            <div class="settings-section">
+                <h3>Appearance</h3>
+                <div class="setting-option">
+                    <label for="darkMode">Dark Mode</label>
+                    <input type="checkbox" id="darkMode">
+                </div>
+                <div class="setting-option">
+                    <label for="fontSize">Font Size</label>
+                    <select id="fontSize">
+                        <option value="small">Small</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+                <div class="setting-option">
+                    <label for="colorMode">Color Mode</label>
+                    <select id="colorMode">
+                        <option value="default" selected>Default</option>
+                        <option value="system">System</option>
+                        <option value="rainbow">Rainbow</option>
+                        <option value="rgbled">RGB LED</option>
+                    </select>
+                </div>
+                <div class="setting-option gradient-colors">
+                    <label>Gradient Colors</label>
+                    <div class="gradient-inputs">
+                        <input type="color" id="gradientStart" value="#4158D0">
+                        <input type="color" id="gradientMiddle" value="#C850C0">
+                        <input type="color" id="gradientEnd" value="#FFCC70">
+                    </div>
+                </div>
+            </div>
+            <button class="close-settings">Close</button>
+        </div>
+    </div>
+    
+    <div class="websites-modal" id="websitesModal">
+        <div class="websites-content">
+            <h2>My GitHub Repositories</h2>
+            <div id="repoList" class="repo-list">
+                <div class="loading">Loading repositories...</div>
+            </div>
+            <button class="close-websites">Close</button>
+        </div>
+    </div>
+    
+    <div class="about-modal" id="aboutModal">
+        <div class="about-content">
+            <h2>About Me</h2>
+            <div class="about-section">
+                <p>I'm a passionate web developer with a keen interest in creating innovative and user-friendly web experiences. My background includes working with modern web technologies and exploring creative solutions to digital challenges.</p>
+                <div class="skills">
+                    <h3>Skills</h3>
+                    <ul>
+                        <li>HTML5 & CSS3</li>
+                        <li>JavaScript</li>
+                        <li>React</li>
+                        <li>Node.js</li>
+                        <li>Git & GitHub</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="close-about">Close</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <svg width="50" height="50" viewBox="0 0 50 50">
+                <circle cx="25" cy="25" r="20" fill="url(#gradient)" />
+                <text x="25" y="30" text-anchor="middle" fill="white">Logo</text>
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#4158D0" />
+                        <stop offset="50%" style="stop-color:#C850C0" />
+                        <stop offset="100%" style="stop-color:#FFCC70" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#settings">Settings</a>
+            <a href="#websites">Websites</a>
+        </nav>
+    </header>
+    <main>
+        <div class="welcome-message">
+            <h1>Welcome to Our Website</h1>
+            <p>Experience the magic of modern web design!</p>
+        </div>
+        
+        <!-- Add new GitHub repositories section -->
+        <div class="github-repos-section">
+            <h2>My Latest GitHub Projects</h2>
+            <div id="mainRepoGrid" class="repos-grid">
+                <div class="loading">Loading repositories...</div>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
