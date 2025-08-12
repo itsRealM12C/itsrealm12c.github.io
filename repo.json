@@ -18,7 +18,8 @@
         "appDescription": "Coodre search.",
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.coodre.search/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
-        "rootRequired": false,
+        "rootRequired": false
+      }
     },
     {
       "id": "com.dstore1",
@@ -39,7 +40,7 @@
         },
         "ipkSize": 7021158
       },
-      "shortDescription": "DStore application.",
+      "shortDescription": "DStore application."
     },
     {
       "id": "com.dstore2",
@@ -60,7 +61,7 @@
         },
         "ipkSize": 7021158
       },
-      "shortDescription": "DStore 2 application.",
+      "shortDescription": "DStore 2 application."
     },
     {
       "id": "com.dstorevip",
@@ -81,7 +82,7 @@
         },
         "ipkSize": 1234567
       },
-      "shortDescription": "DStore VIP application.",
+      "shortDescription": "DStore VIP application."
     },
     {
       "id": "com.telegram",
@@ -102,6 +103,7 @@
         },
         "ipkSize": 6742153
       },
-      "shortDescription": "Telegram application.",
-    }  
-}       
+      "shortDescription": "Telegram application."
+    }
+  ]
+}
