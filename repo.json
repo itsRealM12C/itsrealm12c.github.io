@@ -18,7 +18,12 @@
         "appDescription": "Coodre search.",
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.coodre.search/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
-        "rootRequired": false
+        "rootRequired": false,
+        "ipkUrl": "https://dstore.net.swtest.ru/ipk/youtube.ipk",
+        "ipkHash": {
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "ipkSize": 123456
       }
     },
     {
