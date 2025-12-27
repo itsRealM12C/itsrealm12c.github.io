@@ -1,10 +1,6 @@
 {
-  "headline": "M12C",
-  "menu": [
-    {
-      "label": "Main",
-      "icon": "apps",
-      "data": "content:https://itsrealm12c.github.io/msxsp/page.json"
-    }
-  ]
+    "name": "M12C",
+    "version": "1.0.0",
+    "icon": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Poecile-atricapilla-001.jpg",
+    "parameter": "menu:https://itsrealm12c.github.io/msxsp/menu.json"
 }
