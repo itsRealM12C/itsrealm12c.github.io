@@ -1,5 +1,10 @@
 {
-    "name": "M12C Start Parameter",
-    "version": "1.0.0",
-    "parameter": "https://itsrealm12c.github.io/msxsp/main.json"
+  "headline": "M12C",
+  "menu": [
+    {
+      "label": "Main",
+      "icon": "apps",
+      "data": "https://itsrealm12c.github.io/msxsp/main.json"
+    }
+  ]
 }
