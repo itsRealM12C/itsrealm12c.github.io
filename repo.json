@@ -1,94 +1,52 @@
 {
   "paging": {
     "page": 1,
-    "count": 1,
+    "count": 2,
     "maxPage": 1,
-    "itemsTotal": 1
+    "itemsTotal": 2
   },
   "packages": [
     {
-      "id": "com.dstore1",
-      "title": "DStore 1",
-      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstore1/icon-130x130.png",
-      "manifest": {
-        "id": "com.dstore1",
-        "version": "1.0.1",
-        "type": "web",
-        "title": "DStore",
-        "appDescription": "DStore application.",
-        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstore1/icon-130x130.png",
-        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
-        "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/raw/refs/heads/main/apps/com.dstore1/dstore1.ipk",
-        "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
-        },
-        "ipkSize": 7021158
-      },
-      "shortDescription": "DStore application."
-    },
-    {
-      "id": "com.dstore2",
-      "title": "DStore 2",
+      "id": "com.qiiia.mp",
+      "title": "Quake III Arena Multiplayer",
       "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore2/icon.png",
       "manifest": {
-        "id": "com.dstore2",
-        "version": "1.0.2",
+        "id": "com.qiiia.mp",
+        "version": "0.0.1",
         "type": "web",
-        "title": "DStore 2",
-        "appDescription": "DStore 2 application.",
+        "title": "Quake III Arena Multiplayer",
+        "appDescription": "Quake III Arena Port but with Multiplayer.",
         "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/raw/refs/heads/main/apps/com.dstore2/dstore2.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/Ignore/com.qiiia.mp_0.0.1.ipk",
         "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
+          "sha256": "adcbb96f55c0cf443c6b147945414eaa8875c1385b5b7cc9013a5fb1ce8c9572"
         },
-        "ipkSize": 7021158
+        "ipkSize": 658000
       },
-      "shortDescription": "DStore 2 application."
+      "shortDescription": "Quake III Arena Port but with Multiplayer."
     },
     {
-      "id": "com.dstorevip",
-      "title": "DStore VIP",
-      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstorevip/largeIcon.png",
-      "manifest": {
-        "id": "com.dstorevip",
-        "version": "1.0.3",
-        "type": "web",
-        "title": "DStore VIP",
-        "appDescription": "DStore VIP application.",
-        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.dstorevip/largeIcon.png",
-        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
-        "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/dstorevip.ipk",
-        "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
-        },
-        "ipkSize": 1234567
-      },
-      "shortDescription": "DStore VIP application."
-    },
-    {
-      "id": "com.telegram",
-      "title": "Telegram",
+      "id": "com.qiiia.demo",
+      "title": "Quake III Arena Demo",
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
       "manifest": {
-        "id": "com.telegram",
-        "version": "1.0.4",
+        "id": "com.qiiia.demo",
+        "version": "0.0.1",
         "type": "web",
-        "title": "Telegram",
-        "appDescription": "Telegram application",
+        "title": "Quake III Arena Demo",
+        "appDescription": "Quake III Arena Port",
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/raw/refs/heads/main/apps/com.telegram/telegram.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/Ignore/com.qiiia.demo_0.0.1.ipk",
         "ipkHash": {
-          "sha256": "f897172241f0fa3b7a909623154490cf8d2efebb1b538ec72be6b6bacaedb929"
+          "sha256": "537fd070dcc3f7403aacb9b95d3e4082e9e62271ab7001cdc607a048acffb81c"
         },
-        "ipkSize": 6742153
+        "ipkSize": 657000
       },
-      "shortDescription": "Telegram application."
+      "shortDescription": "Quake III Arena Port"
     }
   ]
 }
