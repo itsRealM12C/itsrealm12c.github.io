@@ -15,17 +15,17 @@
         "version": "0.0.1",
         "type": "web",
         "title": "Quake III Arena Multiplayer",
-        "appDescription": "Quake III Arena Port but with Multiplayer.",
+        "appDescription": "Quake III Arena Port but with Multiplayer. webOS 6+ supported only.",
         "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstorevip/icon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/Ignore/com.qiiia.mp_0.0.1.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/lgnore/com.qiiia.mp_0.0.2.ipk",
         "ipkHash": {
-          "sha256": "adcbb96f55c0cf443c6b147945414eaa8875c1385b5b7cc9013a5fb1ce8c9572"
+          "sha256": "4b625d13851625fa58068967fc9ccef40dd3ccd794dac9ca9e67e68d871f4799"
         },
         "ipkSize": 658000
       },
-      "description": "Quake III Arena Port but with Multiplayer. Supported only on webOS 6+"
+      "shortDescription": "Quake III Arena Port but with Multiplayer."
     },
     {
       "id": "com.qiiia.demo",
@@ -36,20 +36,17 @@
         "version": "0.0.1",
         "type": "web",
         "title": "Quake III Arena Demo",
-        "appDescription": "Quake III Arena Port",
+        "appDescription": "Quake III Arena Port. Supported on webOS 6+ only.",
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/Ignore/com.qiiia.demo_0.0.1.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/lgnore/com.qiiia.demo_0.0.2.ipk",
         "ipkHash": {
-          "sha256": "537fd070dcc3f7403aacb9b95d3e4082e9e62271ab7001cdc607a048acffb81c"
+          "sha256": "32eff401a003263814ea8ee438ee98ad1bedb9195aae3ac106a4ae72b4a7c190"
         },
         "ipkSize": 657000
       },
-      "description": "Quake III Arena Port for LG TV. Supported only on webOS 6+"
+      "shortDescription": "Quake III Arena Port for LG TV. Supported only on webOS 6+"
     }
   ]
 }
-
-
-
