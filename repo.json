@@ -9,7 +9,7 @@
     {
       "id": "com.qiiia.mp",
       "title": "Quake III Arena Multiplayer",
-      "iconUri": "https://github.com/itsRealM12C/itsrealm12c.github.io/apps/com.dstore2/icon.png",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/Picsart_26-01-24_12-45-04-427.png",
       "manifest": {
         "id": "com.qiiia.mp",
         "version": "0.0.1",
@@ -25,12 +25,12 @@
         },
         "ipkSize": 658000
       },
-      "shortDescription": "Quake III Arena Port but with Multiplayer."
+      "shortDescription": "Quake III Arena Port but with Multiplayer. Supported only on webOS 6+"
     },
     {
       "id": "com.qiiia.demo",
       "title": "Quake III Arena Demo",
-      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/Picsart_26-01-24_12-45-50-759.png",
       "manifest": {
         "id": "com.qiiia.demo",
         "version": "0.0.1",
@@ -46,7 +46,8 @@
         },
         "ipkSize": 657000
       },
-      "shortDescription": "Quake III Arena Port"
+      "shortDescription": "Quake III Arena Port for LG TV. Supported only on webOS 6+"
     }
   ]
 }
+
