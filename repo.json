@@ -25,8 +25,7 @@
         },
         "ipkSize": 658000
       },
-      "shortDescription": "Quake III Arena Port but with Multiplayer. Supported only on webOS 6+ 
-      "
+      "description": "Quake III Arena Port but with Multiplayer. Supported only on webOS 6+"
     },
     {
       "id": "com.qiiia.demo",
@@ -47,10 +46,10 @@
         },
         "ipkSize": 657000
       },
-      "shortDescription": "Quake III Arena Port for LG TV. Supported only on webOS 6+ 
-      "
+      "description": "Quake III Arena Port for LG TV. Supported only on webOS 6+"
     }
   ]
 }
+
 
 
