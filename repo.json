@@ -40,7 +40,7 @@
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/kmc_20260124_195025.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/OWALNew/com.m12c.owal_0.0.1.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/OWAL/com.m12c.owal_1.0.0.ipk",
         "ipkHash": {
           "sha256": "f64342c08c3ef27bdf7cab47950b0e6fd162c81a43d75254cccb9c4a9c11aad1"
         },
@@ -71,5 +71,6 @@
     }
   ]
 }
+
 
 
