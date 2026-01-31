@@ -28,6 +28,27 @@
       "shortDescription": "Quake III Arena Port but with Multiplayer."
     },
     {
+      "id": "com.m12c.owalnew",
+      "title": "Online webOS App Launcher",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/Picsart_26-01-24_12-45-50-759.png",
+      "manifest": {
+        "id": "com.m12c.owalnew",
+        "version": "0.0.1",
+        "type": "web",
+        "title": "Online webOS App Launcher",
+        "appDescription": "Online webOS App Launcher exists so you can try the apps even if you barely have storage.",
+        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
+        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
+        "rootRequired": false,
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/OWALNew/com.m12c.owal_0.0.1.ipk",
+        "ipkHash": {
+          "sha256": "f64342c08c3ef27bdf7cab47950b0e6fd162c81a43d75254cccb9c4a9c11aad1"
+        },
+        "ipkSize": 657000
+      },
+      "shortDescription": "Quake III Arena Port for LG TV. Supported only on webOS 6+"
+    }, 
+    {
       "id": "com.qiiia.demo",
       "title": "Quake III Arena Demo",
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/Picsart_26-01-24_12-45-50-759.png",
@@ -35,7 +56,7 @@
         "id": "com.qiiia.demo",
         "version": "0.0.1",
         "type": "web",
-        "title": "Quake III Arena Demo",
+        "title": "Online webOS App Launcher",
         "appDescription": "Quake III Arena Port. Supported on webOS 6+ only.",
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
@@ -50,3 +71,4 @@
     }
   ]
 }
+
