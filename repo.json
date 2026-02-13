@@ -32,7 +32,7 @@
       "title": "Online webOS App Launcher",
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/kmc_20260124_195025.png",
       "manifest": {
-        "id": "com.m12c.owalnew",
+        "id": "com.m12c.owal",
         "version": "0.0.1",
         "type": "web",
         "title": "Online webOS App Launcher",
@@ -71,6 +71,7 @@
     }
   ]
 }
+
 
 
 
