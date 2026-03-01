@@ -12,7 +12,7 @@
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/Picsart_26-01-24_12-45-04-427.png",
       "manifest": {
         "id": "com.qiiia.mp",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "type": "web",
         "title": "Quake III Arena Multiplayer",
         "appDescription": "Quake III Arena Port but with Multiplayer. webOS 6+ supported only.",
@@ -23,7 +23,7 @@
         "ipkHash": {
           "sha256": "4b625d13851625fa58068967fc9ccef40dd3ccd794dac9ca9e67e68d871f4799"
         },
-        "ipkSize": 658000
+        "ipkSize": 1900000
       },
       "shortDescription": "Quake III Arena Port but with Multiplayer."
     },
@@ -54,9 +54,9 @@
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/Picsart_26-01-24_12-45-50-759.png",
       "manifest": {
         "id": "com.qiiia.demo",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "type": "web",
-        "title": "Online webOS App Launcher",
+        "title": "Quake III Arena Demo",
         "appDescription": "Quake III Arena Port. Supported on webOS 6+ only.",
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apps/com.telegram/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
@@ -65,12 +65,13 @@
         "ipkHash": {
           "sha256": "32eff401a003263814ea8ee438ee98ad1bedb9195aae3ac106a4ae72b4a7c190"
         },
-        "ipkSize": 657000
+        "ipkSize": 1800000
       },
       "shortDescription": "Quake III Arena Port for LG TV. Supported only on webOS 6+"
     }
   ]
 }
+
 
 
 
