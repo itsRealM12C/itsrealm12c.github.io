@@ -102,8 +102,8 @@
             return parts;
         }
         (async () => {
-            const dataParts = getParts("Export.data", 2);
-            const wasmParts = getParts("Export.wasm", 3);
+            const dataParts = getParts("https://lessons.mrwheeler.uk/resources/semag/baldi-plus/Build/Export.data", 2);
+            const wasmParts = getParts("https://lessons.mrwheeler.uk/resources/semag/baldi-plus/Build/Export.wasm", 3);
             const allParts = [...dataParts, ...wasmParts];
             const sizes = await Promise.all(allParts.map(getSize));
             totalBytes = sizes.reduce((a, b) => a + b, 0);
