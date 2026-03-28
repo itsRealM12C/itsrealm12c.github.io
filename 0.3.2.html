@@ -5,7 +5,7 @@
     <script src="/js/all.min.js" async></script>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Baldi's Basics Plus</title>
+    <title>Baldi's Basics Plus</title>
     <style>
         html,
         body {
@@ -25,9 +25,27 @@
         }
     </style>
 </head>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #000000;
+        }
 
+        #unity-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+</style>
 <body>
-    <div id="loading-text" style="color: white; font-size: 48px; font-family: cursive; text-align: center; margin-top: 20px;"> LOADING... </div>
+    <div id="loading-text" style="color: white; font-size: 48px; font-family: Arial; text-align: center; margin-top: 20px;"></div>
     <canvas id="unity-canvas" tabindex="-1"></canvas>
     <script src="Export.loader.js"></script>
     <script>
@@ -79,7 +97,7 @@
                 const doneText = formatSize(loadedBytes);
                 const totalText = formatSize(totalBytes);
                 const percent = totalBytes > 0 ? ((loadedBytes / totalBytes) * 100).toFixed(1) : "?";
-                loadingText.textContent = `LOADING... ${doneText} / ${totalText} (${percent}%)`;
+                loadingText.textContent = ``;
             }
             let fullBuffer = new Uint8Array(received);
             let offset = 0;
@@ -124,6 +142,29 @@
             });
         })();
     </script>
+<script>
+function goFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(err => {
+            console.log("Fullscreen blocked. Need a click!");
+        });
+    }
+}
+
+document.addEventListener('click', () => {
+    goFullscreen();
+});
+
+document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+        console.log("Exited fullscreen. Click anywhere to return.");
+        // Note: Browsers will reject goFullscreen() here unless 
+        // the user interacts with the page again.
+    }
+});
+</script>
+
 </body>
 
 </html>
