@@ -1,697 +1,405 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>itsRealM12C</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>itsRealM12C</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* Completely disables native mobile tap highlight color tinting */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body, html {
+            height: 100%;
+            font-family: 'Comfortaa', sans-serif;
+            background-color: #000;
+            overflow: hidden;
+        }
 
-  <!-- Tailwind (CDN for quick use) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Dark base + heavy centered radial glow */
-    /* Theme variables: centralised text/bg colors for light & dark modes */
-    :root {
-      /* Primary adaptive palette used everywhere */
-      --bg: #050505;
-      --text: #ffffff;
-      --accent: #ffd700;
+        /* WebGL Engine Canvas Pinning */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
 
-      /* kept legacy variables for compatibility (mapped from core) */
-      --bg-color: var(--bg);
-      --text-color: var(--text);
+        /* Half-invisible dark overlay layer to dim the busy shader lines */
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            pointer-events: none;
+        }
 
-      --glass-border: rgba(255,255,255,0.1);
-      --hero-start: #ffffff;
-      --hero-mid: #9be5ff;
-      --hero-end: #a6c8ff;
-      --c1-fill: rgba(99,102,241,0.06);
-      --c1-stroke: rgba(255,255,255,0.06);
-      --c2-fill: rgba(79,70,229,0.06);
-      --c2-stroke: rgba(255,255,255,0.06);
-      --c3-fill: rgba(99,102,241,0.06);
-      --c3-stroke: rgba(255,255,255,0.06);
-      --c4-fill: rgba(99,102,241,0.06);
-      --c4-stroke: rgba(255,255,255,0.06);
-      /* text gradient vars (kept for hero only) */
-      --text-start: #e9f6ff;
-      --text-mid: #cfeeff;
-      --text-end: #b8dcff;
-      /* fallback used for muted/secondary text */
-      --text-fallback: #94a3b8;
+        /* Page Content wrapper sitting above background layers */
+        .content-body {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px 0;
+        }
 
-      /* Motion tuning */
-      --motion-fast: 140ms;
-      --motion-medium: 240ms;
-      --motion-slow: 520ms;
-    }
-    html,body { height:100%; background: var(--bg); }
-    body {
-      position: relative;
-      /* enable scroll instead of hidden */
-      overflow: auto;
-      /* Solid deep background with fixed indigo corner glows */
-      background: var(--bg);
-      background-attachment: fixed;
-      background-image:
-        radial-gradient(360px 360px at 8% 8%, rgba(75,0,130,0.18), rgba(75,0,130,0.10) 30%, transparent 55%),
-        radial-gradient(320px 320px at 92% 92%, rgba(75,0,130,0.16), rgba(75,0,130,0.08) 30%, transparent 55%);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      /* overall body text uses CSS variable for perfect contrast */
-      color: var(--text);
-      font-family: "Comfortaa", "Comfortaa", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
+        /* Clean stacked outlined text element structural column */
+        header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 25px; 
+            margin-top: 20px;
+        }
 
-    /* Background SVG layer */
-    .bg-svg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: .9;
-    }
-    .bg-svg svg { width:100%; height:100%; display:block; }
+        .username {
+            font-size: 4.2rem;
+            font-weight: 400;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
+            letter-spacing: 2px;
+        }
 
-    /* Outlined shapes inside svg - use CSS vars for randomization */
-    .bg-circle {
-      fill: var(--c1-fill);
-      stroke: var(--c1-stroke);
-      stroke-width: 1.2;
-      filter: blur(28px);
-      transform-origin: center;
-      will-change: transform;
-      opacity: .9;
-      mix-blend-mode: screen;
-      transition: opacity .25s;
-    }
-    .c1 { fill: var(--c1-fill); stroke: var(--c1-stroke); }
-    .c2 { fill: var(--c2-fill); stroke: var(--c2-stroke); }
-    .c3 { fill: var(--c3-fill); stroke: var(--c3-stroke); }
-    .c4 { fill: var(--c4-fill); stroke: var(--c4-stroke); }
+        .user-bio {
+            font-size: 3rem;
+            font-weight: 300;
+            color: transparent;
+            -webkit-text-stroke: 1.3px rgba(255, 255, 255, 0.9);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
 
-    /* Animations for drifting circles */
-    @keyframes driftA { from { transform: translate3d(-6%, -4%, 0) scale(1); } to { transform: translate3d(6%, 4%, 0) scale(1.08); } }
-    @keyframes driftB { from { transform: translate3d(8%, 6%, 0) scale(1); } to { transform: translate3d(-8%, -6%, 0) scale(0.96); } }
-    @keyframes slowRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .title {
+            font-size: 2.6rem;
+            font-weight: 300;
+            color: transparent;
+            -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.85);
+            letter-spacing: 1px;
+        }
 
-    .c1 { animation: driftA 14s linear infinite alternate; }
-    .c2 { animation: driftB 18s linear infinite alternate; }
-    .c3 { animation: driftA 22s linear infinite alternate-reverse; opacity:.86; }
-    .c4 { animation: driftB 26s linear infinite alternate; opacity:.7; }
+        /* Carousel Row Structure */
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0 30px;
+            position: relative;
+            margin-bottom: 30px;
+        }
 
-    /* Glassmorphism card base */
-    .glass {
-      position: relative;
-      z-index: 10;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(14px) saturate(120%);
-      -webkit-backdrop-filter: blur(14px) saturate(120%);
-      border-radius: 14px;
-      transition: transform var(--motion-medium) cubic-bezier(.2,.9,.3,1), box-shadow var(--motion-medium);
-    }
-    .glass:focus-within { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.35); }
+        /* Bright, high-visibility layout arrows */
+        .nav-arrow {
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            padding: 0 25px;
+            z-index: 10;
+            line-height: 1;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+        }
+        
+        .nav-arrow:hover {
+            color: #00ffcc;
+            text-shadow: 0 0 25px rgba(0, 255, 204, 0.9);
+            transform: scale(1.2);
+        }
 
-    /* Hero title glow gradient uses CSS variables for runtime randomization */
-    .hero-title {
-      font-weight: 800;
-      line-height: 1;
-      background: linear-gradient(90deg, var(--hero-start) 0%, var(--hero-mid) 55%, var(--hero-end) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 8px 40px rgba(99,102,241,0.12);
-      position: relative;
-      z-index: 10;
-      display:inline-block;
-      transform-origin: center;
-      animation: floatTitle 6s ease-in-out infinite;
-    }
-    @keyframes floatTitle {
-      0% { transform: translateY(0) scale(1); filter: drop-shadow(0 10px 28px rgba(99,102,241,0.06)); }
-      50% { transform: translateY(-6px) scale(1.01); filter: drop-shadow(0 18px 48px rgba(99,102,241,0.10)); }
-      100% { transform: translateY(0) scale(1); filter: drop-shadow(0 10px 28px rgba(99,102,241,0.06)); }
-    }
+        /* Continuous Structural Line Framework */
+        .cards-wrapper {
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            max-width: 1200px;
+        }
 
-    /* subtle pulsing accent for hero glow in dark mode */
-    .hero-title::after {
-      content: '';
-      position: absolute;
-      left: -30%;
-      right: -30%;
-      top: -20%;
-      bottom: -10%;
-      z-index: -1;
-      border-radius: 12px;
-      background: radial-gradient(closest-side, rgba(255,215,0,0.06), transparent 40%);
-      opacity: 0;
-      transition: opacity var(--motion-medium);
-      animation: heroGlow 5s ease-in-out infinite;
-    }
-    @keyframes heroGlow {
-      0% { opacity:0; transform: scale(0.98); }
-      40% { opacity:0.55; transform: scale(1.02); }
-      100% { opacity:0; transform: scale(0.98); }
-    }
+        /* Renders the continuous horizontal line seamlessly behind the cards */
+        .cards-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50px;
+            right: -50px;
+            height: 2px;
+            border-top: 2px dashed rgba(255, 255, 255, 0.85);
+            z-index: 1;
+            pointer-events: none;
+        }
 
-    /* Apply subtle gradient text styling to key text nodes (uses fallback color for controls) */
-    .grad-text {
-      background: linear-gradient(90deg, var(--text-start), var(--text-mid), var(--text-end));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    /* Headings and primary labels: use theme variable for perfect contrast */
-    h1, .text-sm.font-semibold, #modalName {
-      color: var(--text-color);
-      font-weight: 700;
-      -webkit-background-clip: unset;
-      background-clip: unset;
-      text-shadow: 0 6px 22px rgba(0,0,0,0.22);
-    }
+        /* The Card Unit - Drops cleanly beneath the continuous wireframe line */
+        .card {
+            width: 180px;
+            height: 240px;
+            background: rgba(0, 0, 0, 0.85);
+            margin: 0 15px;
+            
+            /* Structural perimeter framework matching your mockup exactly */
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            border-top: none;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 300;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    /* Button */
-    .btn {
-      padding: .6rem .9rem;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.06);
-      /* subtle glass white background for action buttons */
-      background: rgba(255,255,255,0.10);
-      color: var(--text-color);
-      font-weight:600;
-      backdrop-filter: blur(8px);
-      transition: transform var(--motion-fast) ease, box-shadow var(--motion-fast) ease, opacity .12s;
-      position: relative;
-      z-index: 10;
-      transform-origin: center;
-    }
-    .btn:active { transform: translateY(1px) scale(.997); }
-    .btn:focus { outline: none; box-shadow: 0 0 0 6px rgba(99,102,241,0.08); }
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.35); }
+        /* Structural upper corner anchors that lock perfectly into the horizontal dash system */
+        .card::before, .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 12px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.85);
+            transition: background 0.4s ease;
+        }
+        .card::before { left: -2px; }
+        .card::after { right: -2px; }
 
-    /* Live-ring subtle pulse around avatar */
-    .live-ring { transition: box-shadow var(--motion-medium), transform var(--motion-medium); }
-    .live-ring::after {
-      content:'';
-      position:absolute; inset:-6px;
-      border-radius:999px;
-      box-shadow: 0 0 18px rgba(255,215,0,0.06);
-      opacity:0;
-      transform: scale(.96);
-      transition: opacity var(--motion-medium), transform var(--motion-medium);
-      pointer-events:none;
-    }
-    .live-ring:hover { transform: scale(1.03); }
-    .live-ring:hover::after { opacity:1; transform: scale(1.06); }
+        /* Glowing Neon Color Transformations on Mouse Hover */
+        .card:hover {
+            background: rgba(0, 255, 204, 0.08);
+            border-color: #00ffcc;
+            color: #00ffcc;
+            box-shadow: 0 20px 40px rgba(0, 255, 204, 0.25);
+            transform: translateY(12px);
+        }
 
-    /* Repo card glow on hover */
-    .repo-card {
-      transition: transform var(--motion-medium) cubic-bezier(.2,.9,.3,1), box-shadow var(--motion-medium), opacity var(--motion-medium);
-      will-change: transform, opacity;
-      border-radius: 12px;
-      padding: 14px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
-      transform-origin: center;
-      animation: popIn .5s cubic-bezier(.2,.9,.3,1) both;
-    }
-    .repo-card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 30px 60px rgba(99,102,241,0.12), 0 10px 26px rgba(0,0,0,0.45);
-    }
-    @keyframes popIn { from { opacity:0; transform: translateY(8px) scale(.995); } to { opacity:1; transform: translateY(0) scale(1); } }
-
-    /* Language tag (solid color backgrounds; text uses dark tone for readability; Python handled as gradient in JS) */
-    .lang-tag {
-      font-size: .72rem;
-      padding: .18rem .46rem;
-      border-radius: 999px;
-      font-weight:600;
-      color:#071126; /* dark text for contrast on colored badges */
-      display:inline-flex;
-      align-items:center;
-      transition: transform var(--motion-fast), box-shadow var(--motion-fast);
-    }
-    .lang-tag:active { transform: translateY(1px); }
-
-    /* Modal */
-    .modal-backdrop {
-      position: fixed;
-      inset:0;
-      background: rgba(2,6,23,0.6);
-      display: none;
-      place-items: center;
-      z-index: 60;
-      padding: 20px;
-      transition: opacity var(--motion-medium);
-      opacity:0;
-    }
-    .modal-backdrop.show { display: grid; opacity:1; }
-    .modal {
-      max-width: 820px;
-      width: 100%;
-      padding: 18px;
-      border-radius: 14px;
-      transform-origin: center;
-      animation: modalIn .28s cubic-bezier(.2,.9,.3,1);
-      transition: transform var(--motion-medium), box-shadow var(--motion-medium);
-    }
-    @keyframes modalIn { from { transform: translateY(8px) scale(.98); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
-
-    /* Staggered fade-in for cards using --i custom prop */
-    .stagger-fade {
-      opacity: 0;
-      transform: translateY(8px);
-      animation: cardIn .48s cubic-bezier(.2,.9,.3,1) forwards;
-      animation-delay: calc(var(--i,0) * 80ms);
-    }
-    @keyframes cardIn { to { opacity:1; transform: translateY(0); } }
-
-    /* small utilities */
-    .muted { color: rgba(230,238,248,0.6); transition: color var(--motion-medium); }
-    .small { font-size: .82rem; }
-
-    /* Video grid / card styles */
-    .video-card {
-      border-radius: 12px;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255,255,255,0.014), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: transform var(--motion-medium) ease, box-shadow var(--motion-medium) ease, opacity var(--motion-medium);
-      cursor: pointer;
-      animation: popIn .45s cubic-bezier(.2,.9,.3,1) both;
-    }
-    .video-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 26px 48px rgba(99,102,241,0.10); }
-    .video-thumb { display:block; width:100%; height:160px; object-fit:cover; border-radius:10px; transition: box-shadow .12s ease, border .12s ease, transform var(--motion-medium); }
-    .video-thumb-wrap { position:relative; border-radius:10px; overflow:hidden; }
-    .video-thumb.active, .video-thumb:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid #ffffff; transform: scale(1.02); }
-    .ts-badge {
-      position:absolute; right:8px; bottom:8px;
-      background:#000000; color:#fff; font-weight:700; font-size:.72rem;
-      padding:4px 6px; border-radius:6px; opacity:0.95;
-    }
-
-    /* small bento/stat styles for reddit/discord active tabs */
-    .bento-stat { text-align:center; padding:12px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006)); border:1px solid rgba(255,255,255,0.04); transition: transform var(--motion-medium); }
-    .bento-stat:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.28); }
-    /* Force Comfortaa everywhere */
-    * { font-family: "Comfortaa", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial !important; }
-
-    /* Bracket nav visual tweaks: container and underline */
-    #socialHub { position: relative; padding-bottom: 8px; }
-    .tab-btn { cursor:pointer; transition: color var(--motion-fast), transform var(--motion-fast); }
-    .tab-btn:hover { transform: translateY(-2px); }
-    .tab-btn .br-left, .tab-btn .br-right { color: var(--text-color); font-weight: 800; font-size: 1rem; opacity:0; transition: opacity var(--motion-fast); }
-    .tab-btn[aria-pressed="true"] .br-left, .tab-btn[aria-pressed="true"] .br-right { opacity:1; }
-    /* Make underline adaptive to theme (uses --text-color) */
-    #tabUnderline { position: absolute; height:3px; background:var(--text-color); bottom:0; left:0; width:0; transition: left .22s cubic-bezier(.2,.9,.3,1), width .22s cubic-bezier(.2,.9,.3,1), background-color .18s; border-radius:2px; z-index:5; box-shadow: 0 6px 18px rgba(0,0,0,0.28); }
-
-    /* small underline shimmer when moving */
-    @keyframes underlinePulse {
-      0% { box-shadow: 0 6px 18px rgba(0,0,0,0.12); transform: scaleX(.98); }
-      50% { box-shadow: 0 12px 28px rgba(0,0,0,0.22); transform: scaleX(1.02); }
-      100% { box-shadow: 0 6px 18px rgba(0,0,0,0.12); transform: scaleX(0.98); }
-    }
-    #tabUnderline.moving { animation: underlinePulse 420ms ease; }
-
-    /* Light mode overrides: switch colors, backgrounds and glass surfaces when user prefers light scheme */
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg-color: #f8fafc;
-        --text-color: #071126;
-        /* keep core shorthand vars in sync so components using --text or --bg work */
-        --text: var(--text-color);
-        --bg: var(--bg-color);
-
-        /* improved fallback for muted/secondary text in light mode for better contrast */
-        --text-fallback: #475569;
-
-        --glass-border: rgba(2,6,23,0.04);
-        --c1-fill: rgba(99,102,241,0.03);
-        --c1-stroke: rgba(2,6,23,0.03);
-        --c2-fill: rgba(79,70,229,0.03);
-        --c2-stroke: rgba(2,6,23,0.03);
-        --c3-fill: rgba(99,102,241,0.03);
-        --c3-stroke: rgba(2,6,23,0.03);
-        --c4-fill: rgba(99,102,241,0.03);
-        --c4-stroke: rgba(2,6,23,0.02);
-      }
-      html, body {
-        background: var(--bg-color);
-        color: var(--text-color);
-        -webkit-font-smoothing:antialiased;
-        -moz-osx-font-smoothing:grayscale;
-        /* reduce glow prominence on light */
-        background-image:
-          radial-gradient(360px 360px at 8% 8%, rgba(75,0,130,0.06), rgba(75,0,130,0.03) 30%, transparent 55%),
-          radial-gradient(320px 320px at 92% 92%, rgba(75,0,130,0.05), rgba(75,0,130,0.02) 30%, transparent 55%);
-      }
-
-      /* soften hero/title shadow for light mode (amber tint, subtle) */
-      .hero-title { text-shadow: 0 6px 18px rgba(255,176,60,0.06); }
-
-      /* Glass panels become subtle white glass on light bg */
-      .glass {
-        background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.92));
-        border: 1px solid rgba(2,6,23,0.05);
-        color: var(--text-color);
-      }
-
-      /* use the light-mode fallback color for secondary/muted text so descriptions are readable */
-      .muted { color: var(--text-fallback); }
-      .small { color: var(--text-fallback); }
-
-      .btn {
-        background: rgba(2,6,23,0.06);
-        color: var(--text-color);
-        border: 1px solid rgba(2,6,23,0.06);
-      }
-
-      .repo-card {
-        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,250,0.98));
-        border: 1px solid rgba(2,6,23,0.04);
-        box-shadow: 0 6px 18px rgba(15,23,42,0.04);
-      }
-      .repo-card:hover { box-shadow: 0 18px 40px rgba(2,6,23,0.06); transform: translateY(-6px); }
-
-      .video-card {
-        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(250,250,250,0.98));
-        border: 1px solid rgba(2,6,23,0.04);
-      }
-      .ts-badge { background: rgba(0,0,0,0.75); color: #fff; }
-
-      /* tab/bracket color flip */
-      .tab-btn .br-left, .tab-btn .br-right { color: var(--text-color); }
-      #tabUnderline { background: var(--text-color); }
-
-      /* modal backdrop lighter */
-      .modal-backdrop { background: rgba(255,255,255,0.6); }
-      .modal { box-shadow: 0 20px 60px rgba(2,6,23,0.06); }
-
-      /* discord iframe card adjustments on light */
-      #discordCard { background: transparent; }
-    }
-
-  </style>
-
-  <script>
-    // Randomize hero gradient, global text gradient and circle colours on each load
-    (function randomizeTheme() {
-      const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-      // generate 3 cohesive HSL colors for the hero gradient
-      const baseHue = rand(180, 300); // bluish to purple-ish
-      const heroStart = `hsl(${baseHue - 10} 100% 92%)`;
-      const heroMid = `hsl(${baseHue} 95% 65%)`;
-      const heroEnd = `hsl(${baseHue + 20} 85% 60%)`;
-      document.documentElement.style.setProperty('--hero-start', heroStart);
-      document.documentElement.style.setProperty('--hero-mid', heroMid);
-      document.documentElement.style.setProperty('--hero-end', heroEnd);
-
-      // Global text gradient picks (lighter shades, mostly randomized)
-      const txtHue = rand(170, 320);
-      const txtStart = `hsl(${txtHue - 8} 90% 92%)`;
-      const txtMid = `hsl(${txtHue} 85% 74%)`;
-      const txtEnd = `hsl(${txtHue + 18} 80% 66%)`;
-      document.documentElement.style.setProperty('--text-start', txtStart);
-      document.documentElement.style.setProperty('--text-mid', txtMid);
-      document.documentElement.style.setProperty('--text-end', txtEnd);
-      // use a readable fallback color for elements that don't support clipped text
-      document.documentElement.style.setProperty('--text-fallback', txtMid);
-
-      // apply fallback as body color (keeps buttons and UI readable)
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-        // use a darker fallback for light mode
-        document.body && document.body.style && (document.body.style.color = '#0f172a');
-      } else {
-        document.body && document.body.style && (document.body.style.color = txtMid);
-      }
-
-      // small helper for gradient badges (if needed elsewhere)
-      document.documentElement.style.setProperty('--badge-gradient', `linear-gradient(90deg, ${txtStart}, ${txtEnd})`);
-
-      // Randomize four circle colors with soft alpha
-      function cfill(h, s = 80, l = 60, a = 0.06) { return `hsla(${h} ${s}% ${l}% / ${a})`; }
-      function cstroke(h, a = 0.06) { return `hsla(${h} 100% 90% / ${a})`; }
-      const h1 = rand(160, 320);
-      const h2 = (h1 + rand(30, 120)) % 360;
-      const h3 = (h1 + rand(60, 200)) % 360;
-      const h4 = (h1 + rand(90, 260)) % 360;
-      document.documentElement.style.setProperty('--c1-fill', cfill(h1,78,60,0.06));
-      document.documentElement.style.setProperty('--c1-stroke', cstroke(h1,0.06));
-      document.documentElement.style.setProperty('--c2-fill', cfill(h2,78,56,0.06));
-      document.documentElement.style.setProperty('--c2-stroke', cstroke(h2,0.06));
-      document.documentElement.style.setProperty('--c3-fill', cfill(h3,78,52,0.07));
-      document.documentElement.style.setProperty('--c3-stroke', cstroke(h3,0.06));
-      document.documentElement.style.setProperty('--c4-fill', cfill(h4,78,50,0.05));
-      document.documentElement.style.setProperty('--c4-stroke', cstroke(h4,0.05));
-    })();
-  </script>
+        .card:hover::before, .card:hover::after {
+            background: #00ffcc;
+        }
+    </style>
 </head>
-<body class="antialiased">
-  <!-- Animated blurry outlined SVG background (behind content) -->
-  <div class="bg-svg" aria-hidden="true">
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img">
-      <defs>
-        <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="18" result="blur"/>
-          <feColorMatrix type="matrix" values="1 0 0 0 0   0 1 0 0 0   0 0 1 0 0   0 0 0 0.6 0"/>
-          <feBlend in="SourceGraphic" in2="blur" mode="screen"/>
-        </filter>
-      </defs>
+<body>
 
-      <!-- Large outlined blurry circles -->
-      <g filter="url(#soft)">
-        <circle class="bg-circle c1" cx="220" cy="180" r="180"/>
-        <circle class="bg-circle c2" cx="980" cy="220" r="140"/>
-        <circle class="bg-circle c3" cx="600" cy="480" r="220"/>
-        <circle class="bg-circle c4" cx="300" cy="620" r="120"/>
-      </g>
+    <div class="bg-overlay"></div>
 
-      <!-- A subtle thin outlined grid-like SVG accent (outlined strokes only) -->
-      <g opacity="0.08" stroke="rgba(255,255,255,0.06)" stroke-width="0.8" fill="none">
-        <path d="M0 0 L1200 0 L1200 800 L0 800 Z" />
-        <circle cx="900" cy="120" r="60" />
-        <circle cx="150" cy="700" r="40" />
-      </g>
-    </svg>
-  </div>
+    <div class="content-body">
+        <header>
+            <h1 class="username">itsRealM12C</h1>
+            <h2 class="user-bio">App maker, and ports apps.</h2>
+        </header>
+        
+        <h2 class="title">Tools i've made</h2>
+        
+        <div class="carousel-container">
+            <div class="nav-arrow" onclick="scrollLeft()">&#x2039;</div>
 
-  <div class="min-h-screen flex flex-col items-center justify-center px-5 py-12">
-    <!-- Hero -->
-    <header class="w-full max-w-4xl text-center">
-      <div class="glass p-10">
-        <h1 class="hero-title text-4xl sm:text-6xl">itsRealM13C</h1>
-        <p class="mt-3 muted max-w-2xl mx-auto">Dashboard with glassmorphic surfaces and live GitHub / YouTube / Discord / Reddit data.</p>
-        <div class="mt-6 flex items-center justify-center gap-4">
-          <button id="openProfileBtn" class="btn" aria-haspopup="dialog">View Full Profile</button>
-        </div>
-
-        <!-- Social Hub Nav (bracket/tab navigation) -->
-        <nav id="socialHub" class="mt-6 flex items-center justify-center gap-6 text-sm" aria-label="Social Hub">
-          <button data-key="github" class="social-link tab-btn relative px-3 py-1" aria-pressed="true">GitHub</button>
-          <button data-key="youtube" class="social-link tab-btn relative px-3 py-1">YouTube</button>
-          <button data-key="discord" class="social-link tab-btn relative px-3 py-1">Discord</button>
-          <button data-key="reddit" class="social-link tab-btn relative px-3 py-1">Reddit</button>
-          <!-- underline bar (adaptive to theme using --text) -->
-          <div id="tabUnderline" aria-hidden="true" style="position:absolute; height:2px; background:var(--text); bottom:0; left:0; width:0; transition:all .18s ease;"></div>
-        </nav>
-      </div>
-    </header>
-
-    <!-- Main content -->
-    <main class="w-full max-w-6xl mt-8 space-y-6">
-      <div class="grid grid-cols-1 gap-6">
-        <section id="reposSection" class="glass p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold">Recent Projects</h2>
-            <div class="flex items-center gap-3">
-              <label for="repoSort" class="small muted mr-2">Sort:</label>
-              <select id="repoSort" class="small btn" style="padding:.28rem .5rem; background:transparent; border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                <option value="updated" selected>Recently updated</option>
-                <option value="stars">Most stars</option>
-                <option value="forks">Most forks</option>
-                <option value="name">Name (A–Z)</option>
-                <option value="language">Language</option>
-              </select>
-              <div id="projectsState" class="small muted">Loading repos…</div>
-            </div>
-          </div>
-
-          <div id="reposGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- cards inserted by JS -->
-          </div>
-
-          <div class="mt-4 flex items-center justify-center">
-            <button id="showMoreBtn" class="btn small" style="display:none">Show more</button>
-          </div>
-        </section>
-
-        <!-- Latest Content (YouTube) -->
-        <section id="youtubeSection" class="glass p-6">
-          <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold">Latest Content</h2>
-            <div class="flex items-center gap-3">
-              <label for="ytSort" class="small muted mr-2">Sort:</label>
-              <select id="ytSort" class="small btn" style="padding:.28rem .5rem; background:transparent; border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                <option value="recent" selected>Most recent</option>
-                <option value="views">Most views</option>
-                <option value="duration">Duration (short → long)</option>
-                <option value="title">Title (A–Z)</option>
-              </select>
-              <div id="youtubeState" class="small muted">Loading videos…</div>
-            </div>
-          </div>
-
-          <div id="youtubeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- thumbnails inserted by JS -->
-          </div>
-        </section>
-
-        <!-- Social Integrations Bento (Discord & Reddit side-by-side) -->
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Discord -->
-          <div id="discordCard" class="glass p-4">
-            <div class="flex items-center justify-between mb-3">
-              <div>
-                <div class="text-sm font-semibold" style="color:var(--text-color)">Discord</div>
-                <div class="small muted">Community Invite</div>
-              </div>
-              <div class="flex items-center gap-3">
-                <label for="discordSort" class="small muted mr-2">Show:</label>
-                <select id="discordSort" class="small btn" style="padding:.18rem .5rem; background:transparent; border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                  <option value="members" selected>Members</option>
-                  <option value="presence">Online</option>
-                </select>
-                <div id="discordIconWrap" class="rounded-full w-12 h-12 bg-white/6 flex items-center justify-center overflow-hidden ml-3">
-                  <!-- icon -->
-                </div>
-              </div>
-            </div>
-            <div id="discordBody" class="mt-2 small muted">Loading invite…</div>
-            <div class="mt-4 flex items-center gap-3">
-              <a id="discordJoin" class="btn small" target="_blank" rel="noopener">Join</a>
-              <div class="ml-auto text-xs text-slate-300 font-semibold">M13C</div>
-            </div>
-          </div>
-
-          <!-- Reddit -->
-          <div id="redditCard" class="glass p-4">
-            <div class="flex items-center justify-between mb-3">
-              <div>
-                <div class="text-sm font-semibold" style="color:var(--text-color)">Reddit</div>
-                <div class="small muted">u/itsRealM10C</div>
-              </div>
-              <div id="redditKarma" class="text-right">
-                <div class="text-lg font-semibold" style="color:var(--text-color)">—</div>
-                <div class="small muted">Karma</div>
-              </div>
+            <div class="cards-wrapper">
+                <div class="card" onclick="openTool(1)">MBN</div>
+                <div class="card" onclick="openTool(2)">PVR</div>
+                <div class="card" onclick="openTool(3)">WAD</div>
+                <div class="card" onclick="openTool(4)">BIN</div>
+                <div class="card" onclick="openTool(5)">AUD</div>
             </div>
 
-            <!-- Dedicated reddit-content area (only shown when Reddit tab is active) -->
-            <div id="reddit-content" class="hidden">
-              <div class="flex items-center justify-between">
-                <div id="redditBody" class="small muted">Loading profile…</div>
-                <div class="flex items-center gap-3">
-                  <label for="redditSort" class="small muted mr-2">Sort posts:</label>
-                  <select id="redditSort" class="small btn" style="padding:.18rem .5rem; background:transparent; border-radius:8px; border:1px solid rgba(255,255,255,0.04);">
-                    <option value="new" selected>Newest</option>
-                    <option value="top">Top (score)</option>
-                    <option value="comments">Most comments</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="mt-3 flex items-center gap-3">
-                <img id="redditAvatar" src="" alt="reddit avatar" class="w-16 h-16 rounded-full border border-white/6 object-cover" style="display:none" />
-                <div>
-                  <div id="redditKarmaText" class="text-sm" style="color:var(--text-color)"></div>
-                  <div id="redditAge" class="small muted"></div>
-                </div>
-              </div>
-
-              <div class="mt-4">
-                <a id="redditOpen" class="btn small" target="_blank" rel="noopener" href="https://www.reddit.com/user/itsRealM10C">Open</a>
-              </div>
-
-              <!-- User submissions list (populated when reddit tab is selected) -->
-              <div id="redditPosts" class="mt-4 space-y-3"></div>
-            </div>
-
-            <!-- Fallback notice shown when reddit tab isn't active -->
-            <div id="reddit-placeholder" class="small muted">Open the Reddit tab to load profile</div>
-          </div>
-        </section>
-      </div>
-    </main>
-  </div>
-
-  <!-- Fullscreen modal (bento) -->
-  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true" style="backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
-    <div id="modal" class="glass modal" aria-labelledby="modalName" style="max-width:1100px; width:95%; height:90vh; overflow:auto; padding:28px;">
-      <div class="flex items-start justify-between mb-4">
-        <div>
-          <div id="modalName" class="text-3xl font-bold">itsrealm12c</div>
-          <div id="modalLogin" class="muted small">@itsrealm12c</div>
+            <div class="nav-arrow" onclick="scrollRight()">&#x203A;</div>
         </div>
-        <div class="flex gap-2">
-          <a id="modalGitHubLink" class="btn small" target="_blank" rel="noopener">Open on GitHub</a>
-          <button id="closeModalBtn" class="btn small" aria-label="Close profile">✕</button>
-        </div>
-      </div>
-
-      <!-- Massive identity / bento grid -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="glass p-4 flex flex-col items-center">
-          <div class="text-sm muted">Identity</div>
-          <div class="text-2xl font-bold" id="bentoIdentity">M13C</div>
-          <div class="small muted">Creator handle</div>
-        </div>
-        <div class="glass p-4 flex flex-col items-center">
-          <div class="text-sm muted">Total GitHub Stars</div>
-          <div class="text-2xl font-bold" id="bentoStars">—</div>
-          <div class="small muted">Across public repos</div>
-        </div>
-        <div class="glass p-4 flex flex-col items-center">
-          <div class="text-sm muted">YouTube Views</div>
-          <div class="text-2xl font-bold" id="bentoYTViews">—</div>
-          <div class="small muted">Estimated / channel feed</div>
-        </div>
-        <div class="glass p-4 flex flex-col items-center">
-          <div class="text-sm muted">Reddit Karma</div>
-          <div class="text-2xl font-bold" id="bentoKarma">—</div>
-          <div class="small muted">u/itsRealM10C</div>
-        </div>
-      </div>
-
-      <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div>
-          <div class="text-sm font-semibold" style="color:#ffffff">Recent Repositories</div>
-          <div id="modalRepos" class="mt-3 space-y-3"></div>
-        </div>
-
-        <div>
-          <div class="text-sm font-semibold" style="color:#ffffff">Latest Videos</div>
-          <div id="modalVideos" class="mt-3 grid grid-cols-1 gap-3"></div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- fullscreen video overlay (used by JS to show embedded YouTube player) -->
-  <div id="videoOverlay" class="modal-backdrop" style="display:none; z-index:70; padding:0; align-items:center;">
-    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-      <div id="videoPlayerWrap" class="glass" style="width:90%; max-width:1100px; height:60vh; border-radius:12px; overflow:hidden; display:flex; flex-direction:column;">
-        <div style="display:flex; justify-content:flex-end; padding:8px;">
-          <button id="closeVideoOverlay" class="btn small" aria-label="Close video">✕</button>
-        </div>
-        <div id="videoIframeWrap" style="flex:1; background:#000;"></div>
-      </div>
-    </div>
-  </div>
+    <script type="module">
+        import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
-  <script type="module" src="/main.js"></script>
+        // Decoupled Shader Strings Matrices
+        const vsCode = `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `;
+
+        const snoiseCode = `
+          vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+          vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+          vec4 permute(vec4 x) { return mod289(((x*34.0)+10.0)*x); }
+          vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+          float snoise(vec3 v) {
+            const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+            const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+            vec3 i  = floor(v + dot(v, C.yyy));
+            vec3 x0 = v - i + dot(i, C.xxx);
+            vec3 g = step(x0.yzx, x0.xyz);
+            vec3 l = 1.0 - g;
+            vec3 i1 = min(g.xyz, l.zxy);
+            vec3 i2 = max(g.xyz, l.zxy);
+            vec3 x1 = x0 - i1 + C.xxx;
+            vec3 x2 = x0 - i2 + C.yyy;
+            vec3 x3 = x0 - D.yyy;
+            i = mod289(i);
+            vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+            float n_ = 0.142857142857;
+            vec3 ns = n_ * D.wyz - D.xzx;
+            vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+            vec4 x_ = floor(j * ns.z);
+            vec4 y_ = floor(j - 7.0 * x_);
+            vec4 x = x_ * ns.x + ns.yyyy;
+            vec4 y = y_ * ns.x + ns.yyyy;
+            vec4 h = 1.0 - abs(x) - abs(y);
+            vec4 b0 = vec4(x.xy, y.xy);
+            vec4 b1 = vec4(x.zw, y.zw);
+            vec4 s0 = floor(b0)*2.0 + 1.0;
+            vec4 s1 = floor(b1)*2.0 + 1.0;
+            vec4 sh = -step(h, vec4(0.0));
+            vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+            vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+            vec3 p0 = vec3(a0.xy, h.x);
+            vec3 p1 = vec3(a0.zw, h.y);
+            vec3 p2 = vec3(a1.xy, h.z);
+            vec3 p3 = vec3(a1.zw, h.w);
+            vec4 norm = taylorInvSqrt(vec4(dot(p0, p0), dot(p1, p1), dot(p2, p2), dot(p3, p3)));
+            p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+            vec4 m = max(0.5 - vec4(dot(x0, x0), dot(x1, x1), dot(x2, x2), dot(x3, x3)), 0.0);
+            m = m * m;
+            return 105.0 * dot(m*m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
+          }
+        `;
+
+        const fsCode = `
+          uniform float time;
+          uniform vec2 resolution;
+          varying vec2 vUv;
+
+          void main() {
+            vec2 st = vUv - vec2(0.5);
+            st.x *= (resolution.x / resolution.y);
+
+            float noiseValue = snoise(vec3(st * 3.2, time * 0.08));
+
+            float bands = 15.0; 
+            float lowerBound = floor(noiseValue * bands) / bands;
+            float deltaDiff = noiseValue - lowerBound;
+
+            float lineThickness = 0.015; 
+            if (deltaDiff > lineThickness) {
+                discard; 
+            }
+
+            // Uniform gray topographic background asset parameters
+            vec3 lineRGB = vec3(0.35, 0.35, 0.35); 
+            float edgeAlpha = smoothstep(lineThickness, 0.0, deltaDiff); 
+
+            gl_FragColor = vec4(lineRGB, edgeAlpha);
+          }
+        `;
+
+        // Canvas Setup Engine
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(0, width, 0, height, 1, 3);
+        camera.position.z = 2;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(width, height);
+        document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+        let geometry = new THREE.PlaneGeometry(width, height);
+        geometry.translate(width / 2, height / 2, 0); 
+
+        const uniforms = {
+          time: { value: 0.0 },
+          resolution: { value: new THREE.Vector2(width, height) }
+        };
+
+        const material = new THREE.ShaderMaterial({
+          uniforms: uniforms,
+          vertexShader: vsCode,
+          fragmentShader: snoiseCode + fsCode,
+          transparent: true,
+          side: THREE.DoubleSide
+        });
+
+        let mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        const clock = new THREE.Clock();
+        function animate() {
+          requestAnimationFrame(animate);
+          uniforms.time.value = clock.getElapsedTime();
+          renderer.render(scene, camera);
+        }
+        animate();
+
+        // Canvas window resizing logic integration
+        window.addEventListener('resize', () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            
+            renderer.setSize(width, height);
+            uniforms.resolution.value.set(width, height);
+            
+            camera.right = width;
+            camera.bottom = height;
+            camera.updateProjectionMatrix();
+            
+            scene.remove(mesh);
+            geometry.dispose();
+            geometry = new THREE.PlaneGeometry(width, height);
+            geometry.translate(width / 2, height / 2, 0);
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+        });
+    </script>
+
+    <script>
+        function openTool(id) {
+            // Card 5 triggers an alert modal window
+            if (id === 5) {
+                alert("Coming soon!");
+                return;
+            }
+
+            // Mapped to your live GitHub Pages URLs
+            const urls = {
+                1: "https://itsrealm12c.github.io/mbn/",
+                2: "https://itsrealm12c.github.io/pvr/",
+                3: "https://itsrealm12c.github.io/dwade/",
+                4: "https://itsrealm12c.github.io/resbin/"
+            };
+
+            if(urls[id] && urls[id] !== "#") {
+                window.open(urls[id], '_blank');
+            }
+        }
+
+        function scrollLeft() { console.log("Navigate Left Module Group"); }
+        function scrollRight() { console.log("Navigate Right Module Group"); }
+    </script>
 </body>
 </html>
