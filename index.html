@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>itsRealM12C</title>
+    <title>𝙞𝙩𝙨𝙍𝙚𝙖𝙡𝙈12𝘾</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            /* Overwritten per-pageload by JS with a randomized cyan/blue hue */
+            --accent: #00ffcc;
+            --accent-dim: rgba(0, 255, 204, 0.25);
+            --accent-glow: rgba(0, 255, 204, 0.9);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -75,6 +82,7 @@
             color: transparent;
             -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
             letter-spacing: 2px;
+            transition: -webkit-text-stroke-color 0.6s ease;
         }
 
         .user-bio {
@@ -84,6 +92,7 @@
             -webkit-text-stroke: 1.3px rgba(255, 255, 255, 0.9);
             letter-spacing: 1px;
             margin-bottom: 15px;
+            transition: -webkit-text-stroke-color 0.6s ease;
         }
 
         .title {
@@ -119,8 +128,8 @@
         }
         
         .nav-arrow:hover {
-            color: #DDDDDD;
-            text-shadow: 0 0 25px rgba(200, 200, 200, 0.9);
+            color: var(--accent);
+            text-shadow: 0 0 25px var(--accent-dim);
             transform: scale(1.2);
         }
 
@@ -189,17 +198,17 @@
         .card::before { left: -2px; }
         .card::after { right: -2px; }
 
-        /* Glowing Neon Color Transformations on Mouse Hover */
+        /* Glowing Neon Color Transformations on Mouse Hover (color set per-pageload via JS) */
         .card:hover {
-            background: rgba(0, 255, 204, 0.08);
-            border-color: #00ffcc;
-            color: #00ffcc;
-            box-shadow: 0 20px 40px rgba(0, 255, 204, 0.25);
+            background: var(--accent-dim);
+            border-color: #bababa;
+            color: var(--accent);
+            box-shadow: 0 20px 40px var(--accent-dim);
             transform: translateY(12px);
         }
 
         .card:hover::before, .card:hover::after {
-            background: #00ffcc;
+            background: #bababa;
         }
     </style>
 </head>
@@ -224,11 +233,40 @@
                 <div class="card" onclick="openTool(3)">WAD</div>
                 <div class="card" onclick="openTool(4)">BIN</div>
                 <div class="card" onclick="openTool(5)">ROQ</div>
+                <div class="card" onclick="openTool(6)">LZ4</div>
+                <div class="card" onclick="openTool(7)">AUD</div>
             </div>
 
             <div class="nav-arrow" onclick="scrollRight()">&#x203A;</div>
         </div>
     </div>
+
+    <script>
+        // --- Per-pageload randomized cyan/blue accent color ---------------------
+        // Picked once on every refresh. Hue range 170°–250° keeps it inside the
+        // cyan → blue band (170 = cyan, 210 = azure, 250 = blue) so it never
+        // drifts into green or purple/magenta territory.
+        window.__accentHue = 170 + Math.random() * 80;
+
+        function hslToRgb(h, s, l) {
+            h /= 360;
+            const a = s * Math.min(l, 1 - l);
+            const f = (n) => {
+                const k = (n + h * 12) % 12;
+                return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+            };
+            return [f(0), f(8), f(4)];
+        }
+
+        (function applyAccent() {
+            const hue = window.__accentHue;
+            const accent = hslToRgb(hue, 1.0, 0.55);
+            const toCss = (rgb, a) => `rgba(${Math.round(rgb[0]*255)}, ${Math.round(rgb[1]*255)}, ${Math.round(rgb[2]*255)}, ${a})`;
+            document.documentElement.style.setProperty('--accent', toCss(accent, 1));
+            document.documentElement.style.setProperty('--accent-dim', toCss(accent, 0.18));
+            document.documentElement.style.setProperty('--accent-glow', toCss(accent, 0.9));
+        })();
+    </script>
 
     <script type="module">
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
@@ -292,13 +330,26 @@
         const fsCode = `
           uniform float time;
           uniform vec2 resolution;
+          uniform vec3 colorA;
+          uniform vec3 colorB;
+          uniform float colorMode; // 0.0 = linear/gradient blend, 1.0 = radial blend
           varying vec2 vUv;
 
           void main() {
             vec2 st = vUv - vec2(0.5);
             st.x *= (resolution.x / resolution.y);
 
-            float noiseValue = snoise(vec3(st * 3.2, time * 0.08));
+            // Slow continuous rotation of the sampling field
+            float angle = time * 0.045;
+            float c = cos(angle);
+            float s = sin(angle);
+            mat2 rot = mat2(c, -s, s, c);
+            vec2 rotSt = rot * st;
+
+            // Slow drifting pan on top of the rotation, so the pattern also moves
+            vec2 drift = vec2(time * 0.025, time * 0.018);
+
+            float noiseValue = snoise(vec3(rotSt * 3.2 + drift, time * 0.08));
 
             float bands = 15.0; 
             float lowerBound = floor(noiseValue * bands) / bands;
@@ -309,8 +360,16 @@
                 discard; 
             }
 
-            // Uniform gray topographic background asset parameters
-            vec3 lineRGB = vec3(0.35, 0.35, 0.35); 
+            // Two different ways the cyan/blue pair can be distributed across the
+            // field, picked once per pageload:
+            //   mode 0 - linear/diagonal gradient sweep across the plane
+            //   mode 1 - radial gradient outward from the rotating center
+            float linearT = 0.5 + 0.5 * sin(rotSt.x * 1.6 + rotSt.y * 1.1 + time * 0.12);
+            float radialT = clamp(length(rotSt) * 0.9 + sin(time * 0.1) * 0.15, 0.0, 1.0);
+            float mixT = mix(linearT, radialT, colorMode);
+
+            vec3 lineRGB = mix(colorA, colorB, mixT);
+
             float edgeAlpha = smoothstep(lineThickness, 0.0, deltaDiff); 
 
             gl_FragColor = vec4(lineRGB, edgeAlpha);
@@ -332,9 +391,33 @@
         let geometry = new THREE.PlaneGeometry(width, height);
         geometry.translate(width / 2, height / 2, 0); 
 
+        // Same randomized hue picked for the CSS accent (see the earlier inline
+        // script) is reused here so the shader and the UI glow always match.
+        function hslToRgbVec(h, s, l) {
+            h /= 360;
+            const a = s * Math.min(l, 1 - l);
+            const f = (n) => {
+                const k = (n + h * 12) % 12;
+                return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+            };
+            return new THREE.Vector3(f(0), f(8), f(4));
+        }
+
+        const baseHue = window.__accentHue !== undefined ? window.__accentHue : (170 + Math.random() * 80);
+        // colorA: darker/deeper end of the gradient, colorB: brighter/lighter end
+        const colorA = hslToRgbVec(baseHue, 0.9, 0.35);
+        const colorB = hslToRgbVec((baseHue + 25) % 360, 0.95, 0.62);
+
+        // Randomly pick, once per pageload, whether the two tones are distributed
+        // as a linear/diagonal sweep across the field or radially from the center.
+        const colorMode = Math.random() < 0.5 ? 0.0 : 1.0;
+
         const uniforms = {
           time: { value: 0.0 },
-          resolution: { value: new THREE.Vector2(width, height) }
+          resolution: { value: new THREE.Vector2(width, height) },
+          colorA: { value: colorA },
+          colorB: { value: colorB },
+          colorMode: { value: colorMode }
         };
 
         const material = new THREE.ShaderMaterial({
@@ -391,7 +474,9 @@
                 2: "https://itsrealm12c.github.io/pvr/",
                 3: "https://itsrealm12c.github.io/dwade/",
                 4: "https://itsrealm12c.github.io/resbin/",
-                5: "https://itsrealm12c.github.io/roq/"
+                5: "https://itsrealm12c.github.io/roq/",
+                6: "https://itsrealm12c.github.io/lz4bm/",
+                7: "https://itsrealm12c.github.io/au/"
             };
 
             if(urls[id] && urls[id] !== "#") {
