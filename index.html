@@ -463,31 +463,30 @@
 
     <script>
         function openTool(id) {
-            // Card 5 triggers an alert modal window
-            if (id === 0) {
-                alert("Coming soon!");
-                return;
-            }
-
-        
-            const urls = {
-                1: "https://itsrealm12c.github.io/mbn/",
-                2: "https://itsrealm12c.github.io/pvr/",
-                3: "https://itsrealm12c.github.io/dwade/",
-                4: "https://itsrealm12c.github.io/resbin/",
-                5: "https://itsrealm12c.github.io/roq/",
-                6: "https://itsrealm12c.github.io/lz4bm/",
-                7: "https://itsrealm12c.github.io/au/",
-                8: "https://itsrealm12c.github.io/clf/"
-            };
-
-            if(urls[id] && urls[id] !== "#") {
-                window.open(urls[id], '_blank');
-            }
+        // Card 5 triggers an alert modal window
+        if (id === 5) {
+            alert("Coming soon!");
+            return;
         }
 
-        function scrollLeft() { console.log("Navigate Left Module Group"); }
-        function scrollRight() { console.log("Navigate Right Module Group"); }
+        const urls = {
+            "1": "https://itsrealm12c.github.io/mbn/",
+            "2": "https://itsrealm12c.github.io/pvr/",
+            "3": "https://itsrealm12c.github.io/dwade/",
+            "4": "https://itsrealm12c.github.io/resbin/",
+            "5": "https://itsrealm12c.github.io/roq/",
+            "6": "https://itsrealm12c.github.io/lz4bm/",
+            "7": "https://itsrealm12c.github.io/au/",
+            "8": "https://itsrealm12c.github.io/clf/"
+        };
+
+        if (urls[id] && urls[id] !== "#") {
+            window.open(urls[id], '_blank');
+        }
+    }
+
+    function scrollLeft() { console.log("Navigate Left Module Group"); }
+    function scrollRight() { console.log("Navigate Right Module Group"); }
     </script>
 </body>
 </html>
