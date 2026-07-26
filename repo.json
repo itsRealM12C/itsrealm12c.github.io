@@ -75,7 +75,7 @@
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/icon.png",
       "manifest": {
         "id": "com.m14c.telnet",
-        "version": "0.0.2",
+        "version": "0.0.1",
         "type": "web",
         "title": "webOS Telnet",
         "appDescription": "Functioning Telnet running on LG webOS TV.",
