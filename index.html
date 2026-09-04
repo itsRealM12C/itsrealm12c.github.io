@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝙞𝙩𝙨𝙍𝙚𝙖𝙡𝙈𝟭𝟮𝘾</title>
+    <title>𝙞𝙩𝙨𝙍𝙚𝙖𝙡𝙈𝟭𝟮𝘊</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,6 @@
     
     <style>
         :root {
-            /* Overwritten per-pageload by JS with a randomized cyan/blue hue */
             --accent: #00ffcc;
             --accent-dim: rgba(0, 255, 204, 0.25);
             --accent-glow: rgba(0, 255, 204, 0.9);
@@ -21,7 +20,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Completely disables native mobile tap highlight color tinting */
             -webkit-tap-highlight-color: transparent;
         }
         
@@ -29,11 +27,14 @@
             height: 100%;
             font-family: 'Comfortaa', sans-serif;
             background-color: #000;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) #000;
         }
 
-        /* WebGL Engine Canvas Pinning */
-        canvas {
+        /* WEBGL PROCEDURAL NOISE SHADER CANVAS */
+        #webgl-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -41,133 +42,180 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
+            /* Blurs the chunky pixels just enough to look like a compressed 480p video instead of harsh blocks */
+            filter: blur(1px); 
         }
 
-        /* Half-invisible dark overlay layer to dim the busy shader lines */
         .bg-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.55); 
             z-index: 1;
             pointer-events: none;
         }
 
-        /* Page Content wrapper sitting above background layers */
+        /* HORIZONTALLY SCROLLING UNIX TIMESTAMP CANVAS */
+        #unix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+        }
+
         .content-body {
             position: relative;
-            z-index: 2;
-            height: 100%;
+            z-index: 3;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 50px 0;
+            justify-content: flex-start;
+            padding: 40px 0 60px 0;
+            gap: 40px;
         }
 
-        /* Clean stacked outlined text element structural column */
         header {
             text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 25px; 
-            margin-top: 20px;
+            align-items: center;
+            gap: 15px; 
+            margin-top: 10px;
+            position: relative;
+            width: 100%;
+        }
+
+        .username, .section-title, .nav-arrow {
+            font-family: 'Comfortaa', sans-serif;
+            color: transparent !important;
+            -webkit-text-fill-color: transparent !important;
+            background: none;
+            transition: -webkit-text-stroke-color 0.1s linear;
         }
 
         .username {
-            font-size: 4.2rem;
-            font-weight: 400;
-            color: transparent;
-            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
+            font-size: 3.8rem;
+            font-weight: 300;
+            -webkit-text-stroke: 0.8px var(--accent);
             letter-spacing: 2px;
-            transition: -webkit-text-stroke-color 0.6s ease;
+            filter: drop-shadow(0 0 6px var(--accent-dim));
+            position: relative;
+            z-index: 4;
+            background: transparent !important;
         }
 
-        .user-bio {
-            font-size: 3rem;
+        .section-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-title {
+            font-size: 2.1rem;
             font-weight: 300;
-            color: transparent;
-            -webkit-text-stroke: 1.3px rgba(255, 255, 255, 0.9);
+            -webkit-text-stroke: 0.75px var(--accent);
             letter-spacing: 1px;
-            margin-bottom: 15px;
-            transition: -webkit-text-stroke-color 0.6s ease;
+            filter: drop-shadow(0 0 5px var(--accent-dim));
+            text-align: center;
         }
 
-        .title {
-            font-size: 2.6rem;
-            font-weight: 300;
-            color: transparent;
-            -webkit-text-stroke: 1.2px rgba(255, 255, 255, 0.85);
-            letter-spacing: 1px;
-        }
-
-        /* Carousel Row Structure */
         .carousel-container {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            padding: 0 30px;
+            padding: 0 20px;
             position: relative;
-            margin-bottom: 30px;
         }
 
-        /* Bright, high-visibility layout arrows */
         .nav-arrow {
-            font-size: 5rem;
-            color: rgba(255, 255, 255, 0.9);
+            font-size: 4rem;
+            -webkit-text-stroke: 1px var(--accent);
             cursor: pointer;
             user-select: none;
-            transition: all 0.3s ease;
-            padding: 0 25px;
+            transition: transform 0.3s ease;
+            padding: 0 15px;
             z-index: 10;
             line-height: 1;
-            text-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+            filter: drop-shadow(0 0 8px var(--accent-dim));
         }
         
         .nav-arrow:hover {
-            color: var(--accent);
-            text-shadow: 0 0 25px var(--accent-dim);
             transform: scale(1.2);
+            filter: drop-shadow(0 0 16px var(--accent-glow));
         }
 
-        /* Continuous Structural Line Framework */
+        .cards-scroll-viewport {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            width: 100%;
+            max-width: 1200px;
+            padding: 15px 0;
+            position: relative;
+
+            -webkit-mask-image: linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 1) 8%,
+                rgba(0, 0, 0, 1) 92%,
+                rgba(0, 0, 0, 0) 100%
+            );
+            mask-image: linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 1) 8%,
+                rgba(0, 0, 0, 1) 92%,
+                rgba(0, 0, 0, 0) 100%
+            );
+        }
+
+        .cards-scroll-viewport::-webkit-scrollbar {
+            display: none;
+        }
+
         .cards-wrapper {
             display: flex;
             position: relative;
-            justify-content: center;
             align-items: flex-start;
-            width: 100%;
-            max-width: 1200px;
+            min-width: max-content;
+            padding: 0 10px;
         }
 
-        /* Renders the continuous horizontal line seamlessly behind the cards */
         .cards-wrapper::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -50px;
-            right: -50px;
-            height: 2px;
-            border-top: 2px dashed rgba(255, 255, 255, 0.85);
+            left: 0;
+            right: 0;
+            height: 1.5px;
+            border-top: 1.5px dashed var(--accent);
             z-index: 1;
             pointer-events: none;
         }
 
-        /* The Card Unit - Drops cleanly beneath the continuous wireframe line */
         .card {
             width: 180px;
-            height: 240px;
-            background: rgba(0, 0, 0, 0.85);
-            margin: 0 15px;
-            
-            /* Structural perimeter framework matching your mockup exactly */
-            border: 2px solid rgba(255, 255, 255, 0.85);
+            height: 220px;
+            background-color: rgba(0, 0, 0, 0.85) !important;
+            margin: 0 12px;
+            border: 1.5px solid var(--accent);
             border-top: none;
-            border-bottom-left-radius: 24px;
-            border-bottom-right-radius: 24px;
+            
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 36px;
+            border-bottom-right-radius: 36px;
             
             position: relative;
             z-index: 2;
@@ -175,87 +223,114 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            padding: 10px;
             
-            color: rgba(255, 255, 255, 0.9);
+            font-family: 'Comfortaa', sans-serif;
             font-size: 1.1rem;
             font-weight: 300;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            color: transparent !important;
+            -webkit-text-fill-color: transparent !important;
+            -webkit-text-stroke: 0.65px var(--accent);
             
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 4px var(--accent-dim));
+            
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: background-color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease, border-radius 0.4s ease;
         }
 
-        /* Structural upper corner anchors that lock perfectly into the horizontal dash system */
         .card::before, .card::after {
             content: '';
             position: absolute;
             top: 0;
             width: 12px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.85);
-            transition: background 0.4s ease;
+            height: 1.5px;
+            background: var(--accent);
+            transition: background 0.1s linear;
         }
-        .card::before { left: -2px; }
-        .card::after { right: -2px; }
+        .card::before { left: -1.5px; }
+        .card::after { right: -1.5px; }
 
-        /* Glowing Neon Color Transformations on Mouse Hover (color set per-pageload via JS) */
         .card:hover {
-            background: var(--accent-dim);
-            border-color: #bababa;
-            color: var(--accent);
-            box-shadow: 0 20px 40px var(--accent-dim);
-            transform: translateY(12px);
+            background-color: var(--accent-dim) !important;
+            border-color: #ffffff;
+            box-shadow: 0 15px 35px var(--accent-dim);
+            transform: translateY(10px) scale(1.02);
+            border-bottom-left-radius: 42px;
+            border-bottom-right-radius: 42px;
         }
 
         .card:hover::before, .card:hover::after {
-            background: #bababa;
+            background: #ffffff;
         }
     </style>
 </head>
 <body>
 
+    <canvas id="webgl-canvas"></canvas>
     <div class="bg-overlay"></div>
+    <canvas id="unix-canvas"></canvas>
 
     <div class="content-body">
         <header>
             <h1 class="username">itsRealM12C</h1>
-            <h2 id="clock">00:00:00</h2>
         </header>
         
-        <h2 class="title">Extraction tools i've made</h2>
-        
-        <div class="carousel-container">
-            <div class="nav-arrow" onclick="scrollLeft()">&#x2039;</div>
-
-            <div class="cards-wrapper">
-                <div class="card" onclick="openTool(1)">MBN</div>
-                <div class="card" onclick="openTool(2)">PVR</div>
-                <div class="card" onclick="openTool(3)">WAD</div>
-                <div class="card" onclick="openTool(4)">BIN</div>
-                <div class="card" onclick="openTool(5)">ROQ</div>
-                <div class="card" onclick="openTool(6)">LZ4</div>
-                <div class="card" onclick="openTool(7)">AUD</div>
-                <div class="card" onclick="openTool(8)">CLF</div>
-                <div class="card" onclick="openTool(9)">UFL</div>
-                <div class="card" onclick="openTool(10)">ANS</div>
-                <div class="card" onclick="openTool(11)">SVX</div>
-                <div class="card" onclick="openTool(12)">PXM</div>
-                <div class="card" onclick="openTool(13)">UNT</div>
-                <div class="card" onclick="openTool(14)">M2V</div>
-                <div class="card" onclick="openTool(15)">IBT</div>
+        <!-- SECTION 1: EXTRACTION TOOLS -->
+        <div class="section-wrapper">
+            <h2 class="section-title">Extraction tools i've made</h2>
+            <div class="carousel-container">
+                <div class="nav-arrow" onclick="scrollContainer('extractViewport', -300)">&#x2039;</div>
+                <div class="cards-scroll-viewport" id="extractViewport">
+                    <div class="cards-wrapper">
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/mbn/')">MBN</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pvr/')">PVR</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/dwade/')">WAD</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/resbin/')">BIN</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/roq/')">ROQ</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/lz4bm/')">LZ4</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/au/')">AUD</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/clf/')">CLF</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ufl/')">UFL</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ans/')">ANS</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/sv/')">SVX</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pxm/')">PXM</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/unt/')">UNT</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/m2v/')">M2V</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ibootpicture/')">IBT</div>
+                    </div>
+                </div>
+                <div class="nav-arrow" onclick="scrollContainer('extractViewport', 300)">&#x203A;</div>
             </div>
-
-            <div class="nav-arrow" onclick="scrollRight()">&#x203A;</div>
         </div>
+
+        <!-- SECTION 2: WEB APPS -->
+        <div class="section-wrapper">
+            <h2 class="section-title">Web apps i've made</h2>
+            <div class="carousel-container">
+                <div class="nav-arrow" onclick="scrollContainer('webappsViewport', -300)">&#x2039;</div>
+                <div class="cards-scroll-viewport" id="webappsViewport">
+                    <div class="cards-wrapper">
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/owalnew/')">OWAL</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/msx/')">MSX</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/listofapprepos/')">REPOS</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/p2td/')">P2TD</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ire/')">IRE</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ASC/')">ASC</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/weboshack/')">WEBOSHACK</div>
+                        <div class="card" onclick="openUrl('https://github.com/itsRealM12C/panoweb')">PANOWEB</div>
+                        <div class="card" onclick="openUrl('https://github.com/itsRealM12C/ipkdownloader')">IPK DOWNLOADER</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/webmessagegenerator/')">MESSAGE GENERATOR</div>
+                    </div>
+                </div>
+                <div class="nav-arrow" onclick="scrollContainer('webappsViewport', 300)">&#x203A;</div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // --- Per-pageload randomized cyan/blue accent color ---------------------
-        // Picked once on every refresh. Hue range 170°–250° keeps it inside the
-        // cyan → blue band (170 = cyan, 210 = azure, 250 = blue) so it never
-        // drifts into green or purple/magenta territory.
-        window.__accentHue = 170 + Math.random() * 80;
-
         function hslToRgb(h, s, l) {
             h /= 360;
             const a = s * Math.min(l, 1 - l);
@@ -265,21 +340,81 @@
             };
             return [f(0), f(8), f(4)];
         }
+    </script>
 
-        (function applyAccent() {
-            const hue = window.__accentHue;
-            const accent = hslToRgb(hue, 1.0, 0.55);
-            const toCss = (rgb, a) => `rgba(${Math.round(rgb[0]*255)}, ${Math.round(rgb[1]*255)}, ${Math.round(rgb[2]*255)}, ${a})`;
-            document.documentElement.style.setProperty('--accent', toCss(accent, 1));
-            document.documentElement.style.setProperty('--accent-dim', toCss(accent, 0.18));
-            document.documentElement.style.setProperty('--accent-glow', toCss(accent, 0.9));
-        })();
+    <!-- CONTINUOUS EPOCH TRANSFORM TICKER ENGINE -->
+    <script>
+        const unixCanvas = document.getElementById('unix-canvas');
+        const ctxUnix = unixCanvas.getContext('2d');
+
+        let uWidth = window.innerWidth;
+        let uHeight = window.innerHeight;
+
+        function resizeUnixCanvas() {
+            uWidth = window.innerWidth;
+            uHeight = window.innerHeight;
+            unixCanvas.width = uWidth;
+            unixCanvas.height = uHeight;
+        }
+        window.addEventListener('resize', resizeUnixCanvas);
+        resizeUnixCanvas();
+
+        function renderUnixTicker() {
+            ctxUnix.clearRect(0, 0, uWidth, uHeight);
+
+            const usernameEl = document.querySelector('.username');
+            if (!usernameEl) {
+                requestAnimationFrame(renderUnixTicker);
+                return;
+            }
+
+            const rect = usernameEl.getBoundingClientRect();
+            const centerY = rect.top + (rect.height / 2);
+            
+            const clampedY = Math.max(0, Math.min(centerY, uHeight));
+            
+            const computedStyle = window.getComputedStyle(usernameEl);
+            const fontSize = parseFloat(computedStyle.fontSize) || 60;
+
+            ctxUnix.font = `300 ${fontSize}px "Comfortaa", sans-serif`;
+
+            const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#00ffcc';
+            
+            ctxUnix.strokeStyle = accentColor;
+            ctxUnix.lineWidth = 1.0; 
+            ctxUnix.globalAlpha = 0.4;
+            ctxUnix.shadowColor = accentColor;
+            ctxUnix.shadowBlur = 4;
+            ctxUnix.textBaseline = 'middle';
+            ctxUnix.textAlign = 'center';
+
+            const continuousTimeSec = Date.now() / 1000;
+            const spacingPx = 280;
+            const halfViewportWidth = uWidth / 2;
+
+            const minTimestamp = Math.floor(continuousTimeSec - (halfViewportWidth / spacingPx) - 1);
+            const maxTimestamp = Math.ceil(continuousTimeSec + (halfViewportWidth / spacingPx) + 1);
+
+            for (let epochSec = minTimestamp; epochSec <= maxTimestamp; epochSec++) {
+                const xPos = (epochSec - continuousTimeSec) * spacingPx + halfViewportWidth;
+                ctxUnix.strokeText(epochSec.toString(), xPos, clampedY);
+            }
+
+            requestAnimationFrame(renderUnixTicker);
+        }
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => {
+                renderUnixTicker();
+            });
+        } else {
+            setTimeout(renderUnixTicker, 500);
+        }
     </script>
 
     <script type="module">
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
-        // Decoupled Shader Strings Matrices
         const vsCode = `
           varying vec2 vUv;
           void main() {
@@ -340,67 +475,65 @@
           uniform vec2 resolution;
           uniform vec3 colorA;
           uniform vec3 colorB;
-          uniform float colorMode; // 0.0 = linear/gradient blend, 1.0 = radial blend
           varying vec2 vUv;
 
           void main() {
-            vec2 st = vUv - vec2(0.5);
+            // Snap UV coordinates to a chunky grid to force low-res 480p topology
+            vec2 resolutionScale = resolution / 4.0; 
+            vec2 gridUv = floor(vUv * resolutionScale) / resolutionScale;
+            
+            vec2 st = gridUv - vec2(0.5);
             st.x *= (resolution.x / resolution.y);
 
-            // Slow continuous rotation of the sampling field
-            float angle = time * 0.045;
+            // Gentle rotation
+            float angle = time * 0.025; 
             float c = cos(angle);
             float s = sin(angle);
             mat2 rot = mat2(c, -s, s, c);
             vec2 rotSt = rot * st;
 
-            // Slow drifting pan on top of the rotation, so the pattern also moves
-            vec2 drift = vec2(time * 0.025, time * 0.018);
+            // LOW TOPOGRAPHY: Large, broad noise features
+            vec2 drift = vec2(time * 0.015, time * 0.010);
+            float noiseValue = snoise(vec3(rotSt * 1.5 + drift, time * 0.05));
 
-            float noiseValue = snoise(vec3(rotSt * 3.2 + drift, time * 0.08));
+            // TOPOGRAPHIC CONTOUR LINES:
+            float contour = fract(noiseValue * 5.0);
+            float contourDerivative = fwidth(contour);
+            
+            float lineWidth = 0.05;
+            float topographyLine = smoothstep(0.0, lineWidth, contour) - smoothstep(lineWidth, lineWidth + contourDerivative, contour);
+            
+            // Inverted topography lines
+            topographyLine = topographyLine;
 
-            float bands = 15.0; 
-            float lowerBound = floor(noiseValue * bands) / bands;
-            float deltaDiff = noiseValue - lowerBound;
+            // Add smooth color variation across the low topography
+            float smoothNoise = noiseValue * 0.5 + 0.5;
+            vec3 lineRGB = mix(colorA, colorB, smoothNoise);
 
-            float lineThickness = 0.015; 
-            if (deltaDiff > lineThickness) {
-                discard; 
-            }
-
-            // Two different ways the cyan/blue pair can be distributed across the
-            // field, picked once per pageload:
-            //   mode 0 - linear/diagonal gradient sweep across the plane
-            //   mode 1 - radial gradient outward from the rotating center
-            float linearT = 0.5 + 0.5 * sin(rotSt.x * 1.6 + rotSt.y * 1.1 + time * 0.12);
-            float radialT = clamp(length(rotSt) * 0.9 + sin(time * 0.1) * 0.15, 0.0, 1.0);
-            float mixT = mix(linearT, radialT, colorMode);
-
-            vec3 lineRGB = mix(colorA, colorB, mixT);
-
-            float edgeAlpha = smoothstep(lineThickness, 0.0, deltaDiff); 
+            // Apply a gentle glow to the bright areas (negative space)
+            float edgeAlpha = topographyLine * 0.6; 
+            lineRGB += vec3(0.1) * topographyLine;
 
             gl_FragColor = vec4(lineRGB, edgeAlpha);
           }
         `;
 
-        // Canvas Setup Engine
         let width = window.innerWidth;
         let height = window.innerHeight;
 
+        const webglCanvas = document.getElementById('webgl-canvas');
         const scene = new THREE.Scene();
         const camera = new THREE.OrthographicCamera(0, width, 0, height, 1, 3);
         camera.position.z = 2;
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ canvas: webglCanvas, antialias: false, alpha: true });
+        // CRITICAL 480P EFFECT: Set drawing buffer to 1/4th the normal resolution
+        renderer.setPixelRatio(0.25); 
         renderer.setSize(width, height);
-        document.body.insertBefore(renderer.domElement, document.body.firstChild);
 
         let geometry = new THREE.PlaneGeometry(width, height);
         geometry.translate(width / 2, height / 2, 0); 
 
-        // Same randomized hue picked for the CSS accent (see the earlier inline
-        // script) is reused here so the shader and the UI glow always match.
         function hslToRgbVec(h, s, l) {
             h /= 360;
             const a = s * Math.min(l, 1 - l);
@@ -411,21 +544,11 @@
             return new THREE.Vector3(f(0), f(8), f(4));
         }
 
-        const baseHue = window.__accentHue !== undefined ? window.__accentHue : (170 + Math.random() * 80);
-        // colorA: darker/deeper end of the gradient, colorB: brighter/lighter end
-        const colorA = hslToRgbVec(baseHue, 0.9, 0.35);
-        const colorB = hslToRgbVec((baseHue + 25) % 360, 0.95, 0.62);
-
-        // Randomly pick, once per pageload, whether the two tones are distributed
-        // as a linear/diagonal sweep across the field or radially from the center.
-        const colorMode = Math.random() < 0.5 ? 0.0 : 1.0;
-
         const uniforms = {
           time: { value: 0.0 },
           resolution: { value: new THREE.Vector2(width, height) },
-          colorA: { value: colorA },
-          colorB: { value: colorB },
-          colorMode: { value: colorMode }
+          colorA: { value: new THREE.Vector3() },
+          colorB: { value: new THREE.Vector3() }
         };
 
         const material = new THREE.ShaderMaterial({
@@ -439,15 +562,36 @@
         let mesh = new THREE.Mesh(geometry, material);
         scene.add(mesh);
 
-        const clock = new THREE.Clock();
+        const clockEngine = new THREE.Clock();
+
+        function animateColors(elapsedTime) {
+            const currentHue = 210 + Math.sin(elapsedTime * 0.4) * 40;
+            const secondaryHue = (currentHue + 30) % 360;
+
+            const rgb = hslToRgb(currentHue, 1.0, 0.55);
+            const r = Math.round(rgb[0] * 255);
+            const g = Math.round(rgb[1] * 255);
+            const b = Math.round(rgb[2] * 255);
+
+            document.documentElement.style.setProperty('--accent', `rgba(${r}, ${g}, ${b}, 1)`);
+            document.documentElement.style.setProperty('--accent-dim', `rgba(${r}, ${g}, ${b}, 0.25)`);
+            document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.9)`);
+
+            uniforms.colorA.value.copy(hslToRgbVec(currentHue, 0.9, 0.35));
+            uniforms.colorB.value.copy(hslToRgbVec(secondaryHue, 0.95, 0.62));
+        }
+
         function animate() {
           requestAnimationFrame(animate);
-          uniforms.time.value = clock.getElapsedTime();
+          const elapsedTime = clockEngine.getElapsedTime();
+          uniforms.time.value = elapsedTime;
+          
+          animateColors(elapsedTime);
+          
           renderer.render(scene, camera);
         }
         animate();
 
-        // Canvas window resizing logic integration
         window.addEventListener('resize', () => {
             width = window.innerWidth;
             height = window.innerHeight;
@@ -469,52 +613,18 @@
     </script>
 
     <script>
-        function openTool(id) {
-        // Card 5 triggers an alert modal window
-        if (id === 5) {
-            alert("Coming soon!");
-            return;
+        function openUrl(url) {
+            if (url && url !== "#") {
+                window.open(url, '_blank');
+            }
         }
 
-        const urls = {
-            "1": "https://itsrealm12c.github.io/mbn/",
-            "2": "https://itsrealm12c.github.io/pvr/",
-            "3": "https://itsrealm12c.github.io/dwade/",
-            "4": "https://itsrealm12c.github.io/resbin/",
-            "5": "https://itsrealm12c.github.io/roq/",
-            "6": "https://itsrealm12c.github.io/lz4bm/",
-            "7": "https://itsrealm12c.github.io/au/",
-            "8": "https://itsrealm12c.github.io/clf/",
-            "9": "https://itsrealm12c.github.io/ufl/",
-            "10": "https://itsrealm12c.github.io/ans/",
-            "11": "https://itsrealm12c.github.io/sv/",
-            "12": "https://itsrealm12c.github.io/pxm/",
-            "13": "https://itsrealm12c.github.io/unt/",
-            "14": "https://itsrealm12c.github.io/m2v/",
-            "15": "https://itsrealm12c.github.io/ibootpicture/"
-        };
-
-        if (urls[id] && urls[id] !== "#") {
-            window.open(urls[id], '_blank');
+        function scrollContainer(containerId, offset) {
+            const el = document.getElementById(containerId);
+            if (el) {
+                el.scrollBy({ left: offset, behavior: 'smooth' });
+            }
         }
-    }
-
-    function scrollLeft() { console.log("Navigate Left Module Group"); }
-    function scrollRight() { console.log("Navigate Right Module Group"); }
-
-        function showTime() {
-            // Get current time and format it as a string
-            let time = new Date().toLocaleTimeString();
-            
-            // Put the time inside the HTML element
-            document.getElementById("clock").innerText = time;
-        }
-
-        // Run the function immediately when the page loads
-        showTime();
-
-        // Update the time every 1 second (1000 milliseconds)
-        setInterval(showTime, 1000);
     </script>
 </body>
 </html>
