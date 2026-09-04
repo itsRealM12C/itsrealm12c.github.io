@@ -219,7 +219,7 @@
     <div class="content-body">
         <header>
             <h1 class="username">itsRealM12C</h1>
-            <h2 class="user-bio">App maker, and ports apps.</h2>
+            <h2 id="clock">00:00:00</h2>
         </header>
         
         <h2 class="title">Extraction tools i've made</h2>
@@ -242,6 +242,7 @@
                 <div class="card" onclick="openTool(12)">PXM</div>
                 <div class="card" onclick="openTool(13)">UNT</div>
                 <div class="card" onclick="openTool(14)">M2V</div>
+                <div class="card" onclick="openTool(15)">IBT</div>
             </div>
 
             <div class="nav-arrow" onclick="scrollRight()">&#x203A;</div>
@@ -489,7 +490,8 @@
             "11": "https://itsrealm12c.github.io/sv/",
             "12": "https://itsrealm12c.github.io/pxm/",
             "13": "https://itsrealm12c.github.io/unt/",
-            "14": "https://itsrealm12c.github.io/m2v/"
+            "14": "https://itsrealm12c.github.io/m2v/",
+            "15": "https://itsrealm12c.github.io/ibootpicture/"
         };
 
         if (urls[id] && urls[id] !== "#") {
@@ -499,6 +501,20 @@
 
     function scrollLeft() { console.log("Navigate Left Module Group"); }
     function scrollRight() { console.log("Navigate Right Module Group"); }
+
+        function showTime() {
+            // Get current time and format it as a string
+            let time = new Date().toLocaleTimeString();
+            
+            // Put the time inside the HTML element
+            document.getElementById("clock").innerText = time;
+        }
+
+        // Run the function immediately when the page loads
+        showTime();
+
+        // Update the time every 1 second (1000 milliseconds)
+        setInterval(showTime, 1000);
     </script>
 </body>
 </html>
