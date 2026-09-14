@@ -16,14 +16,14 @@
             --accent-glow: rgba(0, 255, 204, 0.9);
         }
 
-        * {
+        *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
         
-        body, html {
+        html, body {
             height: 100%;
             font-family: 'Comfortaa', sans-serif;
             background-color: #000;
@@ -31,9 +31,11 @@
             overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: var(--accent) #000;
+            cursor: none !important;
+            touch-action: none;
         }
 
-        /* WEBGL PROCEDURAL NOISE SHADER CANVAS */
+        /* ISOLATED HARDWARE ACCELERATED CANVAS LAYERS */
         #webgl-canvas {
             position: fixed;
             top: 0;
@@ -42,8 +44,9 @@
             height: 100vh;
             z-index: 0;
             pointer-events: none;
-            /* Blurs the chunky pixels just enough to look like a compressed 480p video instead of harsh blocks */
             filter: blur(1px); 
+            contain: strict;
+            will-change: transform;
         }
 
         .bg-overlay {
@@ -55,9 +58,9 @@
             background: rgba(0, 0, 0, 0.55); 
             z-index: 1;
             pointer-events: none;
+            contain: strict;
         }
 
-        /* HORIZONTALLY SCROLLING UNIX TIMESTAMP CANVAS */
         #unix-canvas {
             position: fixed;
             top: 0;
@@ -66,6 +69,8 @@
             height: 100vh;
             z-index: 2;
             pointer-events: none;
+            contain: strict;
+            will-change: transform;
         }
 
         .content-body {
@@ -78,6 +83,7 @@
             justify-content: flex-start;
             padding: 40px 0 60px 0;
             gap: 40px;
+            contain: layout style;
         }
 
         header {
@@ -116,6 +122,7 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            contain: layout style;
         }
 
         .section-title {
@@ -139,9 +146,9 @@
         .nav-arrow {
             font-size: 4rem;
             -webkit-text-stroke: 1px var(--accent);
-            cursor: pointer;
+            cursor: pointer !important;
             user-select: none;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 0 15px;
             z-index: 10;
             line-height: 1;
@@ -163,6 +170,7 @@
             max-width: 1200px;
             padding: 15px 0;
             position: relative;
+            contain: layout style paint;
 
             -webkit-mask-image: linear-gradient(
                 to right,
@@ -207,37 +215,33 @@
         .card {
             width: 180px;
             height: 220px;
-            background-color: rgba(0, 0, 0, 0.85) !important;
+            background-color: rgba(16, 22, 34, 0.85) !important;
             margin: 0 12px;
-            border: 1.5px solid var(--accent);
-            border-top: none;
-            
+            border: 1.5px solid var(--accent) !important;
+            border-top: none !important;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             border-bottom-left-radius: 36px;
             border-bottom-right-radius: 36px;
-            
             position: relative;
             z-index: 2;
-            cursor: pointer;
+            cursor: pointer !important;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 10px;
-            
             font-family: 'Comfortaa', sans-serif;
             font-size: 1.1rem;
             font-weight: 300;
             color: transparent !important;
             -webkit-text-fill-color: transparent !important;
             -webkit-text-stroke: 0.65px var(--accent);
-            
             filter: drop-shadow(0 0 4px var(--accent-dim));
-            
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            transition: background-color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease, border-radius 0.4s ease;
+            will-change: transform, background-color, box-shadow;
+            transition: background-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .card::before, .card::after {
@@ -246,23 +250,47 @@
             top: 0;
             width: 12px;
             height: 1.5px;
-            background: var(--accent);
+            background: var(--accent) !important;
             transition: background 0.1s linear;
         }
         .card::before { left: -1.5px; }
         .card::after { right: -1.5px; }
 
-        .card:hover {
-            background-color: var(--accent-dim) !important;
-            border-color: #ffffff;
-            box-shadow: 0 15px 35px var(--accent-dim);
-            transform: translateY(10px) scale(1.02);
+        .card:hover, .card.selected {
+            background-color: rgba(50, 70, 100, 0.85) !important;
+            border-color: var(--accent) !important;
+            box-shadow: 0 14px 32px var(--accent-dim);
+            transform: translateY(8px) scale(1.02);
             border-bottom-left-radius: 42px;
             border-bottom-right-radius: 42px;
         }
 
-        .card:hover::before, .card:hover::after {
-            background: #ffffff;
+        .card:hover::before, .card:hover::after,
+        .card.selected::before, .card.selected::after {
+            background: var(--accent) !important;
+        }
+
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999999;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+            contain: strict;
+        }
+
+        #custom-cursor svg {
+            width: 36px;
+            height: 36px;
+            display: block;
+            filter: drop-shadow(0 0 6px var(--accent-dim));
+        }
+
+        #custom-cursor path {
+            stroke: var(--accent);
+            transition: stroke 0.1s linear;
         }
     </style>
 </head>
@@ -284,22 +312,22 @@
                 <div class="nav-arrow" onclick="scrollContainer('extractViewport', -300)">&#x2039;</div>
                 <div class="cards-scroll-viewport" id="extractViewport">
                     <div class="cards-wrapper">
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/mbn/')">MBN</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pvr/')">PVR</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/dwade/')">WAD</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/resbin/')">BIN</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/roq/')">ROQ</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/lz4bm/')">LZ4</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/au/')">AUD</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/clf/')">CLF</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ufl/')">UFL</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ans/')">ANS</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/sv/')">SVX</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pxm/')">PXM</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/unt/')">UNT</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/m2v/')">M2V</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ibootpicture/')">IBT</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pz/')">PZD</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/mbn/', this)">MBN</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pvr/', this)">PVR</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/dwade/', this)">WAD</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/resbin/', this)">BIN</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/roq/', this)">ROQ</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/lz4bm/', this)">LZ4</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/au/', this)">AUD</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/clf/', this)">CLF</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ufl/', this)">UFL</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ans/', this)">ANS</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/sv/', this)">SVX</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pxm/', this)">PXM</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/unt/', this)">UNT</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/m2v/', this)">M2V</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ibootpicture/', this)">IBT</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/pz/', this)">PZD</div>
                     </div>
                 </div>
                 <div class="nav-arrow" onclick="scrollContainer('extractViewport', 300)">&#x203A;</div>
@@ -313,22 +341,36 @@
                 <div class="nav-arrow" onclick="scrollContainer('webappsViewport', -300)">&#x2039;</div>
                 <div class="cards-scroll-viewport" id="webappsViewport">
                     <div class="cards-wrapper">
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/owalnew/')">OWAL</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/msx/')">MSX</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/listofapprepos/')">REPOS</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/p2td/')">P2TD</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ire/')">IRE</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ASC/')">ASC</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/weboshack/')">WEBOSHACK</div>
-                        <div class="card" onclick="openUrl('https://github.com/itsRealM12C/panoweb')">PANOWEB</div>
-                        <div class="card" onclick="openUrl('https://github.com/itsRealM12C/ipkdownloader')">IPK DOWNLOADER</div>
-                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/webmessagegenerator/')">MESSAGE GENERATOR</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/owalnew/', this)">OWAL</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/msx/', this)">MSX</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/listofapprepos/', this)">REPOS</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/p2td/', this)">P2TD</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ire/', this)">IRE</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ASC/', this)">ASC</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/weboshack/', this)">WEBOSHACK</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/panoweb/', this)">PANOWEB</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/ra/', this)">Rival Arena</div>
+                        <div class="card" onclick="openUrl('https://itsrealm12c.github.io/webmessagegenerator/', this)">MESSAGE GENERATOR</div>
                     </div>
                 </div>
                 <div class="nav-arrow" onclick="scrollContainer('webappsViewport', 300)">&#x203A;</div>
             </div>
         </div>
 
+    </div>
+
+    <!-- VECTOR CURSOR OVERLAY -->
+    <div id="custom-cursor">
+      <svg width="36px" height="36px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path 
+          d="M8.68602 16.288L8.10556 9.37387C7.96399 7.68752 9.85032 6.59846 11.24 7.56424L16.9375 11.524C18.6256 12.6972 17.6579 15.348 15.611 15.1577L14.8273 15.0849C13.9821 15.0063 13.1795 15.4697 12.825 16.2409L12.4962 16.9561C11.6376 18.8238 8.858 18.3365 8.68602 16.288Z" 
+          fill="rgba(0, 0, 0, 0.4)" 
+          fill-rule="evenodd" 
+          stroke-width="1.2" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+        />
+      </svg>
     </div>
 
     <script>
@@ -343,48 +385,45 @@
         }
     </script>
 
-    <!-- CONTINUOUS EPOCH TRANSFORM TICKER ENGINE -->
+    <!-- OPTIMIZED 2D CANVAS TICKER ENGINE (ZERO REFLECTIONS IN RAF) -->
     <script>
         const unixCanvas = document.getElementById('unix-canvas');
-        const ctxUnix = unixCanvas.getContext('2d');
+        const ctxUnix = unixCanvas.getContext('2d', { alpha: true });
 
         let uWidth = window.innerWidth;
         let uHeight = window.innerHeight;
+        let cachedCenterY = uHeight / 2;
+        let cachedFontSize = 60;
+        let cachedAccentColor = '#00ffcc';
 
-        function resizeUnixCanvas() {
+        const usernameEl = document.querySelector('.username');
+
+        function updateLayoutMetrics() {
             uWidth = window.innerWidth;
             uHeight = window.innerHeight;
             unixCanvas.width = uWidth;
             unixCanvas.height = uHeight;
+
+            if (usernameEl) {
+                const rect = usernameEl.getBoundingClientRect();
+                cachedCenterY = Math.max(0, Math.min(rect.top + (rect.height / 2), uHeight));
+                const computedStyle = window.getComputedStyle(usernameEl);
+                cachedFontSize = parseFloat(computedStyle.fontSize) || 60;
+            }
+            cachedAccentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#00ffcc';
         }
-        window.addEventListener('resize', resizeUnixCanvas);
-        resizeUnixCanvas();
+
+        window.addEventListener('resize', updateLayoutMetrics, { passive: true });
+        updateLayoutMetrics();
 
         function renderUnixTicker() {
             ctxUnix.clearRect(0, 0, uWidth, uHeight);
 
-            const usernameEl = document.querySelector('.username');
-            if (!usernameEl) {
-                requestAnimationFrame(renderUnixTicker);
-                return;
-            }
-
-            const rect = usernameEl.getBoundingClientRect();
-            const centerY = rect.top + (rect.height / 2);
-            
-            const clampedY = Math.max(0, Math.min(centerY, uHeight));
-            
-            const computedStyle = window.getComputedStyle(usernameEl);
-            const fontSize = parseFloat(computedStyle.fontSize) || 60;
-
-            ctxUnix.font = `300 ${fontSize}px "Comfortaa", sans-serif`;
-
-            const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#00ffcc';
-            
-            ctxUnix.strokeStyle = accentColor;
+            ctxUnix.font = `300 ${cachedFontSize}px "Comfortaa", sans-serif`;
+            ctxUnix.strokeStyle = cachedAccentColor;
             ctxUnix.lineWidth = 1.0; 
             ctxUnix.globalAlpha = 0.4;
-            ctxUnix.shadowColor = accentColor;
+            ctxUnix.shadowColor = cachedAccentColor;
             ctxUnix.shadowBlur = 4;
             ctxUnix.textBaseline = 'middle';
             ctxUnix.textAlign = 'center';
@@ -398,7 +437,7 @@
 
             for (let epochSec = minTimestamp; epochSec <= maxTimestamp; epochSec++) {
                 const xPos = (epochSec - continuousTimeSec) * spacingPx + halfViewportWidth;
-                ctxUnix.strokeText(epochSec.toString(), xPos, clampedY);
+                ctxUnix.strokeText(epochSec.toString(), xPos, cachedCenterY);
             }
 
             requestAnimationFrame(renderUnixTicker);
@@ -406,13 +445,18 @@
 
         if (document.fonts && document.fonts.ready) {
             document.fonts.ready.then(() => {
+                updateLayoutMetrics();
                 renderUnixTicker();
             });
         } else {
-            setTimeout(renderUnixTicker, 500);
+            setTimeout(() => {
+                updateLayoutMetrics();
+                renderUnixTicker();
+            }, 500);
         }
     </script>
 
+    <!-- OPTIMIZED WEBGL SHADER PIPELINE -->
     <script type="module">
         import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
@@ -479,39 +523,30 @@
           varying vec2 vUv;
 
           void main() {
-            // Snap UV coordinates to a chunky grid to force low-res 480p topology
             vec2 resolutionScale = resolution / 4.0; 
             vec2 gridUv = floor(vUv * resolutionScale) / resolutionScale;
             
             vec2 st = gridUv - vec2(0.5);
             st.x *= (resolution.x / resolution.y);
 
-            // Gentle rotation
             float angle = time * 0.025; 
             float c = cos(angle);
             float s = sin(angle);
             mat2 rot = mat2(c, -s, s, c);
             vec2 rotSt = rot * st;
 
-            // LOW TOPOGRAPHY: Large, broad noise features
             vec2 drift = vec2(time * 0.015, time * 0.010);
             float noiseValue = snoise(vec3(rotSt * 1.5 + drift, time * 0.05));
 
-            // TOPOGRAPHIC CONTOUR LINES:
             float contour = fract(noiseValue * 5.0);
             float contourDerivative = fwidth(contour);
             
             float lineWidth = 0.05;
             float topographyLine = smoothstep(0.0, lineWidth, contour) - smoothstep(lineWidth, lineWidth + contourDerivative, contour);
-            
-            // Inverted topography lines
-            topographyLine = topographyLine;
 
-            // Add smooth color variation across the low topography
             float smoothNoise = noiseValue * 0.5 + 0.5;
             vec3 lineRGB = mix(colorA, colorB, smoothNoise);
 
-            // Apply a gentle glow to the bright areas (negative space)
             float edgeAlpha = topographyLine * 0.6; 
             lineRGB += vec3(0.1) * topographyLine;
 
@@ -527,13 +562,13 @@
         const camera = new THREE.OrthographicCamera(0, width, 0, height, 1, 3);
         camera.position.z = 2;
 
-        const renderer = new THREE.WebGLRenderer({ canvas: webglCanvas, antialias: false, alpha: true });
-        // CRITICAL 480P EFFECT: Set drawing buffer to 1/4th the normal resolution
+        const renderer = new THREE.WebGLRenderer({ canvas: webglCanvas, antialias: false, alpha: true, powerPreference: "high-performance" });
         renderer.setPixelRatio(0.25); 
         renderer.setSize(width, height);
 
-        let geometry = new THREE.PlaneGeometry(width, height);
-        geometry.translate(width / 2, height / 2, 0); 
+        // RE-USABLE GEOMETRY MESH (REDUCES GARBAGE COLLECTION)
+        const geometry = new THREE.PlaneGeometry(1, 1);
+        geometry.translate(0.5, 0.5, 0); 
 
         function hslToRgbVec(h, s, l) {
             h /= 360;
@@ -560,7 +595,8 @@
           side: THREE.DoubleSide
         });
 
-        let mesh = new THREE.Mesh(geometry, material);
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.scale.set(width, height, 1);
         scene.add(mesh);
 
         const clockEngine = new THREE.Clock();
@@ -588,7 +624,6 @@
           uniforms.time.value = elapsedTime;
           
           animateColors(elapsedTime);
-          
           renderer.render(scene, camera);
         }
         animate();
@@ -604,17 +639,14 @@
             camera.bottom = height;
             camera.updateProjectionMatrix();
             
-            scene.remove(mesh);
-            geometry.dispose();
-            geometry = new THREE.PlaneGeometry(width, height);
-            geometry.translate(width / 2, height / 2, 0);
-            mesh = new THREE.Mesh(geometry, material);
-            scene.add(mesh);
-        });
+            mesh.scale.set(width, height, 1);
+        }, { passive: true });
     </script>
 
     <script>
-        function openUrl(url) {
+        function openUrl(url, el) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+            if (el) el.classList.add('selected');
             if (url && url !== "#") {
                 window.open(url, '_blank');
             }
@@ -627,5 +659,25 @@
             }
         }
     </script>
+
+    <!-- HIGH-PRECISION POINTER TRACKER -->
+    <script>
+      const customCursor = document.getElementById('custom-cursor');
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+
+      window.addEventListener('pointermove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      }, { passive: true });
+
+      function renderCursor() {
+        customCursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+        requestAnimationFrame(renderCursor);
+      }
+
+      requestAnimationFrame(renderCursor);
+    </script>
+
 </body>
 </html>
