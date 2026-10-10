@@ -1,9 +1,9 @@
 {
   "paging": {
     "page": 1,
-    "count": 4,
+    "count": 5,
     "maxPage": 1,
-    "itemsTotal": 4
+    "itemsTotal": 5
   },
   "packages": [
     {
@@ -47,7 +47,7 @@
         "ipkSize": 1410508
       },
       "shortDescription": "OWAL for LG TV's."
-    }, 
+    },
     {
       "id": "com.qiiia.demo",
       "title": "Quake III Arena Demo",
@@ -56,7 +56,7 @@
         "id": "com.qiiia.demo",
         "version": "0.0.2",
         "type": "web",
-        "title": "webOS Telnet",
+        "title": "Quake III Arena Demo",
         "appDescription": "Functioning Telnet running on LG webOS TV.",
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/Picsart_26-01-24_12-45-50-759.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io",
@@ -89,15 +89,13 @@
         "ipkSize": 25998
       },
       "shortDescription": "Functioning Telnet running on LG webOS TV."
-    }
-  ]
-},
+    },
     {
       "id": "com.m14c.filemanager",
       "title": "webOS File Manager",
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apppp.png",
       "manifest": {
-        "id": "com.m12c.filemanager",
+        "id": "com.m14c.filemanager",
         "version": "0.0.1",
         "type": "web",
         "title": "webOS File Manager",
@@ -113,3 +111,5 @@
       },
       "shortDescription": "Functioning File Manager running on LG webOS TV."
     }
+  ]
+}
