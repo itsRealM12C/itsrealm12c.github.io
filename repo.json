@@ -91,4 +91,27 @@
       "shortDescription": "Functioning Telnet running on LG webOS TV."
     }
   ]
+},
+    {
+      "id": "com.m14c.filemanager",
+      "title": "webOS File Manager",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apppp.png",
+      "manifest": {
+        "id": "com.m12c.filemanager",
+        "version": "0.0.1",
+        "type": "web",
+        "title": "webOS File Manager",
+        "appDescription": "Functioning File Manager running on LG webOS TV.",
+        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apppp.png",
+        "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases#release-Appp",
+        "rootRequired": false,
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/Appp/com.m12c.filemanager_0.0.1_.ipk",
+        "ipkHash": {
+          "sha256": "ed62c9c5a4f22fc603fdec602ed59606c3a75dca2bf47eb438873534882e4aa8"
+        },
+        "ipkSize": 33786
+      },
+      "shortDescription": "Functioning File Manager running on LG webOS TV."
+    }
+  ]
 }
