@@ -70,11 +70,11 @@
       "shortDescription": ""
     },
     {
-      "id": "com.m14c.telnet",
+      "id": "com.m12c.telnet",
       "title": "webOS Telnet",
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/icon.png",
       "manifest": {
-        "id": "com.m14c.telnet",
+        "id": "com.m12c.telnet",
         "version": "0.0.1",
         "type": "web",
         "title": "webOS Telnet",
@@ -82,20 +82,20 @@
         "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/largeIcon.png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases#release-App",
         "rootRequired": false,
-        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/App/com.m14c.telnet_0.0.1_.ipk",
+        "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/Okay/com.m12c.telnet_0.0.1.ipk",
         "ipkHash": {
-          "sha256": "2b4286820959a431c24952ec3d1fd95e05f13bd84523be13ee1c5aa95e4f4be0"
+          "sha256": "18c6f06e7c066633520ef100c9267ddeef747d4782e85948736ee1c778473e91"
         },
-        "ipkSize": 25998
+        "ipkSize": 26000
       },
       "shortDescription": "Functioning Telnet running on LG webOS TV."
     },
     {
-      "id": "com.m14c.filemanager",
+      "id": "com.m12c.filemanager",
       "title": "webOS File Manager",
       "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apppp.png",
       "manifest": {
-        "id": "com.m14c.filemanager",
+        "id": "com.m12c.filemanager",
         "version": "0.0.1",
         "type": "web",
         "title": "webOS File Manager",
