@@ -93,14 +93,14 @@
     {
       "id": "com.m12c.filemanager",
       "title": "webOS File Manager",
-      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apppp.png",
+      "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/largeIcon%20(2).png",
       "manifest": {
         "id": "com.m12c.filemanager",
         "version": "0.0.1",
         "type": "web",
         "title": "webOS File Manager",
         "appDescription": "Functioning File Manager running on LG webOS TV.",
-        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/apppp.png",
+        "iconUri": "https://raw.githubusercontent.com/itsRealM12C/itsrealm12c.github.io/refs/heads/main/largeIcon%20(2).png",
         "sourceUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases#release-Appp",
         "rootRequired": false,
         "ipkUrl": "https://github.com/itsRealM12C/itsrealm12c.github.io/releases/download/Appp/com.m12c.filemanager_0.0.1_.ipk",
